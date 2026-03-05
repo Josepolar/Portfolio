@@ -25,7 +25,7 @@ function GitHubRepos() {
         : {}
 
       const response = await axios.get(
-        `https://api.github.com/users/${import.meta.env.VITE_GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
+        `https://github.com/Josepolar${import.meta.env.VITE_GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
         { headers }
       )
 
