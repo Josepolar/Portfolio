@@ -16,6 +16,10 @@ export default {
         'code': ['JetBrains Mono', 'monospace'],
         'body': ['Lato', 'sans-serif'],
       },
+      spacing: {
+        'safe-top': 'max(1rem, env(safe-area-inset-top))',
+        'safe-bottom': 'max(1rem, env(safe-area-inset-bottom))',
+      },
     },
   },
   plugins: [],
