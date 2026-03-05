@@ -1,0 +1,89 @@
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const navItems = [
+    { label: 'Home', href: '#hero' },
+    { label: 'About', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#featured' },
+    { label: 'GitHub', href: '#github' },
+    { label: 'Timeline', href: '#timeline' },
+    { label: 'Contact', href: '#contact' },
+  ]
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-dark-bg/80 backdrop-blur-md border-b border-accent-teal/10">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <motion.a
+          href="#home"
+          className="text-2xl font-bold font-code text-accent-teal"
+          whileHover={{ scale: 1.05 }}
+        >
+          Jose.dev
+        </motion.a>
+
+        {/* Desktop menu */}
+        <div className="hidden md:flex gap-8">
+          {navItems.map((item) => (
+            <motion.a
+              key={item.href}
+              href={item.href}
+              className="text-gray-300 hover:text-accent-teal transition-colors"
+              whileHover={{ y: -2 }}
+            >
+              {item.label}
+            </motion.a>
+          ))}
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden p-2 text-accent-teal"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <motion.div
+          className="md:hidden bg-dark-secondary border-t border-accent-teal/10"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="px-4 py-4 space-y-4">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="block text-gray-300 hover:text-accent-teal transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </nav>
+  )
+}
+
+export default Navbar
