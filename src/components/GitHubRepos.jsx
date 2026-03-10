@@ -13,35 +13,62 @@ function GitHubRepos() {
 
   const languages = ['All', 'PHP', 'JavaScript', 'Dart', 'Python', 'HTML']
 
-  useEffect(() => {
-    fetchRepos()
-  }, [])
-
   const fetchRepos = async () => {
     try {
       setLoading(true)
-      const headers = import.meta.env.VITE_GITHUB_TOKEN
-        ? { Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}` }
-        : {}
+      const username = import.meta.env.VITE_GITHUB_USERNAME || 'Josepolar'
+
+      const rawToken = import.meta.env.VITE_GITHUB_TOKEN?.trim?.() || ''
+      const tokenLooksPlaceholder = /your_(github_)?token/i.test(rawToken) || rawToken === 'your_github_token_here'
+      const token = rawToken && !tokenLooksPlaceholder ? rawToken : ''
+
+      const headers = token ? { Authorization: `Bearer ${token}` } : {}
 
       const response = await axios.get(
-        `https://github.com/Josepolar${import.meta.env.VITE_GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
-        { headers }
+        `https://api.github.com/users/${username}/repos`,
+        {
+          headers,
+          params: {
+            per_page: 100,
+            sort: 'updated',
+          },
+          timeout: 15000,
+        }
       )
 
       setRepos(response.data)
       setFilteredRepos(response.data)
       setError(null)
     } catch (err) {
-      setError('Failed to fetch repositories')
-      console.error(err)
+      const status = err?.response?.status
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        'Unknown error'
+
+      if (status === 403 && /rate limit/i.test(message)) {
+        setError('GitHub rate limit hit. Add a server-side proxy, or remove token from client and accept the limit.')
+      } else if (status === 401) {
+        setError('GitHub token is invalid/expired (401). Remove it or set a valid token.')
+      } else if (status === 404) {
+        setError(`GitHub user "${username}" not found (404). Check VITE_GITHUB_USERNAME.`)
+      } else {
+        setError(`Failed to fetch repositories${status ? ` (${status})` : ''}: ${message}`)
+      }
+
+      console.error('GitHub repos fetch failed:', { status, message, err })
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    let filtered = repos
+    fetchRepos()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    let filtered = [...repos]
 
     // Filter by language
     if (selectedLanguage !== 'All') {

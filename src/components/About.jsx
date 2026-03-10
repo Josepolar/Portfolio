@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import ProfileCard from './ProfileCard'
 
 function About() {
   const highlights = [
@@ -19,6 +21,26 @@ function About() {
     },
   ]
 
+  const [activeProfile, setActiveProfile] = useState(0)
+  const [lastInteraction, setLastInteraction] = useState(() => Date.now())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now()
+      if (now - lastInteraction > 6000) {
+        setActiveProfile((prev) => (prev === 0 ? 1 : 0))
+        setLastInteraction(now)
+      }
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [lastInteraction])
+
+  const handleActivate = (index) => {
+    setActiveProfile(index)
+    setLastInteraction(Date.now())
+  }
+
   return (
     <section id="about" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -32,30 +54,43 @@ function About() {
           <span className="text-accent-teal">About</span> Me
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left side - Profile image placeholder */}
-          <motion.div
-            className="flex justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative w-64 h-64 md:w-80 md:h-80">
-              {/* Glowing border frame */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent-teal to-accent-amber rounded-lg blur opacity-75 p-1"></div>
+        <div
+          className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] gap-12 items-center"
+          onMouseMove={() => setLastInteraction(Date.now())}
+          onTouchStart={() => setLastInteraction(Date.now())}
+        >
+          {/* Left side - Profile cards */}
+          <div className="flex justify-center">
+            <div className="relative">
+              <ProfileCard
+                src="/profile-outdoor.png"
+                alt="Jose Bernard outdoors in the mountains"
+                subtitle="Grounded in nature, always looking for the next challenge."
+                badge="Full‑stack dev • PH"
+                detail="Most days you'll find me exploring new places, sketching systems in my head, and thinking about how tech can improve day‑to‑day life."
+                active={activeProfile === 0}
+                onActivate={() => handleActivate(0)}
+              />
 
-              {/* Image placeholder */}
-              <div className="relative bg-dark-secondary rounded-lg flex items-center justify-center h-full">
-                <div className="text-6xl">👨‍💻</div>
-              </div>
-
-              {/* Status badge */}
-              <div className="absolute -bottom-4 -right-4 bg-accent-amber text-dark-bg px-4 py-2 rounded-full font-bold text-sm">
-                Available for freelance
-              </div>
+              <motion.div
+                className="hidden md:block absolute -right-16 bottom-0"
+                initial={{ opacity: 0, y: 24, rotate: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              >
+                <ProfileCard
+                  src="/profile-indoor.png"
+                  alt="Jose Bernard in a casual fit"
+                  subtitle="Comfort build: coffee, music, and long coding sessions."
+                  badge="Available for freelance"
+                  detail="When I'm indoors, I'm usually deep into code, experimenting with new stacks, or polishing UI details until everything feels just right."
+                  active={activeProfile === 1}
+                  onActivate={() => handleActivate(1)}
+                />
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right side - Bio and highlights */}
           <motion.div

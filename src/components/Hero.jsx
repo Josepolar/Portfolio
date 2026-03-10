@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
+import DecryptedText from './DecryptedText'
+import TechStackIcons from './TechStackIcons'
 
 function Hero() {
   const [gitHubStats, setGitHubStats] = useState(null)
@@ -9,14 +11,15 @@ function Hero() {
   useEffect(() => {
     const fetchGitHubStats = async () => {
       try {
-        const response = await axios.get(
-          `https://api.github.com/users/${import.meta.env.VITE_GITHUB_USERNAME}`,
-          import.meta.env.VITE_GITHUB_TOKEN && {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          }
-        )
+        const username = import.meta.env.VITE_GITHUB_USERNAME || 'Josepolar'
+        const rawToken = import.meta.env.VITE_GITHUB_TOKEN?.trim?.() || ''
+        const tokenLooksPlaceholder = /your_(github_)?token/i.test(rawToken) || rawToken === 'your_github_token_here'
+        const token = rawToken && !tokenLooksPlaceholder ? rawToken : ''
+
+        const response = await axios.get(`https://api.github.com/users/${username}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          timeout: 15000,
+        })
         setGitHubStats({
           followers: response.data.followers,
           repos: response.data.public_repos,
@@ -58,6 +61,24 @@ function Hero() {
       className="min-h-screen flex items-center justify-center pt-20 pb-20 px-4"
     >
       <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
+          <DecryptedText
+            text="jose Bernard fernandez"
+            animateOn="view"
+            sequential
+            revealDirection="center"
+            speed={35}
+            parentClassName="inline-block font-code text-2xl md:text-3xl tracking-wide"
+            className="text-accent-teal"
+            encryptedClassName="text-accent-amber"
+          />
+        </motion.div>
+
         {/* Main headline with animated roles */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -132,6 +153,15 @@ function Hero() {
           >
             GitHub ↗
           </motion.a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.6 }}
+        >
+          <p className="text-sm text-gray-400 font-code mb-4">Tech I ship with</p>
+          <TechStackIcons />
         </motion.div>
 
         {/* Scroll indicator */}

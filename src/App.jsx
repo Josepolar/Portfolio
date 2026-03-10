@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Hero from './components/Hero'
 import About from './components/About'
 import SkillsMatrix from './components/SkillsMatrix'
@@ -7,8 +7,15 @@ import FeaturedProjects from './components/FeaturedProjects'
 import Timeline from './components/Timeline'
 import Contact from './components/Contact'
 import Navbar from './components/Navbar'
+import DitherBackground from './components/DitherBackground'
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    const saved = window.localStorage.getItem('theme')
+    if (saved === 'light' || saved === 'dark') return saved
+    return window.matchMedia?.('(prefers-color-scheme: light)')?.matches ? 'light' : 'dark'
+  })
+
   useEffect(() => {
     // Initialize custom cursor interactions
     const handleMouseMove = (e) => {
@@ -23,13 +30,21 @@ function App() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    window.localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const rootClassName = useMemo(() => {
+    return theme === 'light' ? 'bg-white text-slate-900' : 'bg-dark-bg text-white'
+  }, [theme])
+
   return (
-    <div className="bg-dark-bg text-white">
-      {/* Animated background */}
-      <div className="fixed top-0 left-0 w-full h-full bg-gradient-to-br from-dark-bg to-dark-secondary -z-10 pointer-events-none"></div>
+    <div className={rootClassName}>
+      <DitherBackground theme={theme} />
 
       {/* Navigation */}
-      <Navbar />
+      <Navbar theme={theme} onToggleTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} />
 
       {/* Main Content */}
       <main>
