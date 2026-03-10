@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { FiMoon, FiSun } from 'react-icons/fi'
 
 function Navbar({ theme = 'dark', onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -45,10 +46,14 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
           <button
             type="button"
             onClick={onToggleTheme}
-            className="px-3 py-2 rounded-lg border border-accent-teal/20 text-gray-200 hover:border-accent-teal/40 hover:bg-accent-teal/10 transition-colors font-code text-sm"
-            aria-label="Toggle theme"
+            className="p-2 rounded-lg border border-accent-teal/20 text-honeydew hover:border-accent-teal/40 hover:bg-accent-teal/10 transition-colors"
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
           >
-            {theme === 'light' ? 'Light' : 'Dark'}
+            {theme === 'light' ? (
+              <FiMoon className="w-5 h-5" />
+            ) : (
+              <FiSun className="w-5 h-5" />
+            )}
           </button>
         </div>
 
@@ -57,10 +62,14 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
           <button
             type="button"
             onClick={onToggleTheme}
-            className="px-3 py-2 rounded-lg border border-accent-teal/20 text-gray-200 hover:border-accent-teal/40 hover:bg-accent-teal/10 transition-colors font-code text-sm"
-            aria-label="Toggle theme"
+            className="p-2 rounded-lg border border-accent-teal/20 text-honeydew hover:border-accent-teal/40 hover:bg-accent-teal/10 transition-colors"
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
           >
-            {theme === 'light' ? 'Light' : 'Dark'}
+            {theme === 'light' ? (
+              <FiMoon className="w-5 h-5" />
+            ) : (
+              <FiSun className="w-5 h-5" />
+            )}
           </button>
 
           <button

@@ -3,24 +3,6 @@ import { motion } from 'framer-motion'
 import ProfileCard from './ProfileCard'
 
 function About() {
-  const highlights = [
-    {
-      icon: '💻',
-      title: '2+ Years',
-      description: 'Full-stack development experience with Laravel and React',
-    },
-    {
-      icon: '🚀',
-      title: 'IoT & AI',
-      description: 'Research in disaster monitoring systems and smart IoT integration',
-    },
-    {
-      icon: '🇵🇭',
-      title: 'PH-Based',
-      description: 'Building solutions tailored to Philippine tech needs and communities',
-    },
-  ]
-
   const [activeProfile, setActiveProfile] = useState(0)
   const [lastInteraction, setLastInteraction] = useState(() => Date.now())
 
@@ -61,7 +43,7 @@ function About() {
         >
           {/* Left side - Profile cards */}
           <div className="flex justify-center">
-            <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
               <ProfileCard
                 src="/profile-outdoor.png"
                 alt="Jose Bernard outdoors in the mountains"
@@ -73,8 +55,7 @@ function About() {
               />
 
               <motion.div
-                className="hidden md:block absolute -right-16 bottom-0"
-                initial={{ opacity: 0, y: 24, rotate: 6 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.1 }}
@@ -92,7 +73,7 @@ function About() {
             </div>
           </div>
 
-          {/* Right side - Bio and highlights */}
+          {/* Right side - Bio */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -110,26 +91,6 @@ function About() {
             <p className="text-gray-400 mb-8 italic">
               "I debug with coffee ☕ and deploy with confidence."
             </p>
-
-            {/* Highlights */}
-            <div className="space-y-4">
-              {highlights.map((highlight, index) => (
-                <motion.div
-                  key={index}
-                  className="glass-card p-4 flex gap-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <span className="text-3xl">{highlight.icon}</span>
-                  <div>
-                    <h3 className="text-accent-teal font-bold">{highlight.title}</h3>
-                    <p className="text-sm text-gray-400">{highlight.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
         </div>
       </div>

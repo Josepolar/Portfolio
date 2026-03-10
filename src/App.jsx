@@ -36,7 +36,7 @@ function App() {
   }, [theme])
 
   const rootClassName = useMemo(() => {
-    return theme === 'light' ? 'bg-white text-slate-900' : 'bg-dark-bg text-white'
+    return theme === 'light' ? 'bg-porcelain text-abyss' : 'bg-dark-bg text-porcelain'
   }, [theme])
 
   return (
@@ -51,7 +51,7 @@ function App() {
         <Hero />
         <About />
         <SkillsMatrix />
-        <FeaturedProjects />
+        <FeaturedProjects theme={theme} />
         <GitHubRepos />
         <Timeline />
         <Contact />

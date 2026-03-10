@@ -39,6 +39,7 @@ export default function DitherBackground({
   opacity = 0.9,
   pixelSize = 2,
   speed = 1,
+  quality = 'auto', // 'auto' | 'low' | 'medium' | 'high'
 }) {
   const canvasRef = useRef(null)
   const rafRef = useRef(null)
@@ -46,15 +47,15 @@ export default function DitherBackground({
   const palette = useMemo(() => {
     if (theme === 'light') {
       return {
-        a: hexToRgb('#F6F7FB'),
-        b: hexToRgb('#D7E6FF'),
-        c: hexToRgb('#1B2A4A'),
+        a: hexToRgb('#e0e1dd'), // porcelain
+        b: hexToRgb('#b6bcc5'), // mid tint between slate_mist & porcelain
+        c: hexToRgb('#415a77'), // steel_blue
       }
     }
     return {
-      a: hexToRgb('#0A0E1A'),
-      b: hexToRgb('#111A33'),
-      c: hexToRgb('#00D4FF'),
+      a: hexToRgb('#0d1b2a'), // abyss
+      b: hexToRgb('#1b263b'), // deep_slate
+      c: hexToRgb('#778da9'), // slate_mist
     }
   }, [theme])
 
@@ -67,7 +68,23 @@ export default function DitherBackground({
     const dpr = Math.min(2, window.devicePixelRatio || 1)
     let w = 0
     let h = 0
+    let rw = 0
+    let rh = 0
     let frame = 0
+    let lastT = 0
+    const targetFps = quality === 'high' ? 60 : quality === 'medium' ? 45 : 30
+    const frameMs = 1000 / targetFps
+    let img = null
+    let off = null
+    let octx = null
+
+    const getScale = () => {
+      if (quality === 'low') return 0.22
+      if (quality === 'medium') return 0.3
+      if (quality === 'high') return 0.42
+      // auto
+      return theme === 'light' ? 0.34 : 0.3
+    }
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
@@ -76,21 +93,36 @@ export default function DitherBackground({
       canvas.width = Math.floor(w * dpr)
       canvas.height = Math.floor(h * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      const scale = getScale()
+      rw = Math.max(1, Math.floor(w * scale))
+      rh = Math.max(1, Math.floor(h * scale))
+      img = ctx.createImageData(rw, rh)
+
+      off = document.createElement('canvas')
+      off.width = rw
+      off.height = rh
+      octx = off.getContext('2d')
     }
 
-    const draw = () => {
+    const draw = (now) => {
+      rafRef.current = window.requestAnimationFrame(draw)
+      if (!img) return
+
+      if (now - lastT < frameMs) return
+      lastT = now
       frame += 1
-      const img = ctx.createImageData(w, h)
+
       const data = img.data
 
       const t = frame * 0.0075 * Math.max(0.1, speed)
       const px = Math.max(1, Math.floor(pixelSize))
 
-      for (let y = 0; y < h; y += 1) {
-        for (let x = 0; x < w; x += 1) {
+      for (let y = 0; y < rh; y += 1) {
+        for (let x = 0; x < rw; x += 1) {
           // ReactBits-like: large smooth field + micro noise, then ordered dither
-          const nx = x / w
-          const ny = y / h
+          const nx = x / rw
+          const ny = y / rh
 
           const waveA = Math.sin((nx * 2.1 + ny * 1.4 + t) * Math.PI * 2) * 0.5 + 0.5
           const waveB = Math.sin((nx * 0.9 - ny * 1.8 - t * 0.9) * Math.PI * 2) * 0.5 + 0.5
@@ -111,7 +143,7 @@ export default function DitherBackground({
           const base = bit ? palette.b : palette.a
           const col = sparkle ? palette.c : base
 
-          const i = (y * w + x) * 4
+          const i = (y * rw + x) * 4
           data[i] = col.r
           data[i + 1] = col.g
           data[i + 2] = col.b
@@ -119,12 +151,19 @@ export default function DitherBackground({
         }
       }
 
-      ctx.putImageData(img, 0, 0)
-      rafRef.current = window.requestAnimationFrame(draw)
+      // Draw low-res buffer, scale up crisply
+      if (!octx || !off) return
+      octx.putImageData(img, 0, 0)
+
+      ctx.save()
+      ctx.imageSmoothingEnabled = false
+      ctx.clearRect(0, 0, w, h)
+      ctx.drawImage(off, 0, 0, rw, rh, 0, 0, w, h)
+      ctx.restore()
     }
 
     resize()
-    draw()
+    rafRef.current = window.requestAnimationFrame(draw)
 
     const onResize = () => {
       resize()
@@ -135,7 +174,7 @@ export default function DitherBackground({
       window.removeEventListener('resize', onResize)
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current)
     }
-  }, [opacity, palette, pixelSize])
+  }, [opacity, palette, pixelSize, quality, speed, theme])
 
   return (
     <div
