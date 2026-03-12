@@ -38,7 +38,7 @@ function About() {
 
         <div
           className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] gap-12 items-center"
-          onMouseMove={() => setLastInteraction(Date.now())}
+          onClick={() => setLastInteraction(Date.now())}
           onTouchStart={() => setLastInteraction(Date.now())}
         >
           {/* Left side - Profile cards */}
@@ -46,7 +46,7 @@ function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
               <ProfileCard
                 src="/profile-outdoor.png"
-                alt="Jose Bernard outdoors in the mountains"
+                alt="Jose Bernard outdoors in the mountain"
                 subtitle="Grounded in nature, always looking for the next challenge."
                 badge="Full‑stack dev • PH"
                 detail="Most days you'll find me exploring new places, sketching systems in my head, and thinking about how tech can improve day‑to‑day life."
