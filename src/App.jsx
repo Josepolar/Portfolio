@@ -7,7 +7,6 @@ import FeaturedProjects from './components/FeaturedProjects'
 import Timeline from './components/Timeline'
 import Contact from './components/Contact'
 import Navbar from './components/Navbar'
-import DitherBackground from './components/DitherBackground'
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -41,8 +40,6 @@ function App() {
 
   return (
     <div className={rootClassName}>
-      <DitherBackground theme={theme} />
-
       {/* Navigation */}
       <Navbar theme={theme} onToggleTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} />
 

@@ -9,7 +9,7 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
     { label: 'Home', href: '#hero' },
     { label: 'About', href: '#about' },
     { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#featured' },
+    { label: 'Contributions', href: '#featured' },
     { label: 'GitHub', href: '#github' },
     { label: 'Timeline', href: '#timeline' },
     { label: 'Contact', href: '#contact' },
