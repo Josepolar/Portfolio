@@ -3,52 +3,42 @@ import { ScrollStack, ScrollStackItem } from './ScrollStack'
 
 const timeline = [
   {
-    year: '2022',
+    year: '2022 – 2024',
     emoji: '🌱',
-    title: 'Academic Projects Begin',
+    title: 'Academic Foundation',
     description:
-      'Started learning HTML, CSS, and PHP fundamentals through intensive self-study and academic coursework.',
-    tags: ['HTML', 'CSS', 'PHP'],
+      'Mastered HTML, CSS, PHP, and Laravel through university coursework and self-study. Built a full-stack Court Reservation System with React + Laravel Sanctum handling multi-user bookings.',
+    tags: ['HTML', 'CSS', 'PHP', 'Laravel', 'React', 'MySQL'],
   },
   {
-    year: '2023',
-    emoji: '⚙️',
-    title: 'Laravel Deep Dive',
-    description:
-      'Developed proficiency in Laravel framework and built my first full-stack web application for a university project.',
-    tags: ['Laravel', 'MySQL', 'REST API'],
-  },
-  {
-    year: '2024',
-    emoji: '🏀',
-    title: 'Court Reservation System',
-    description:
-      'Completed a comprehensive multi-user booking platform handling 500+ concurrent reservations with a React frontend.',
-    tags: ['React', 'Laravel', 'Sanctum'],
-  },
-  {
-    year: '2024',
-    emoji: '📱',
-    title: 'Flutter Exploration',
-    description:
-      'Started mobile development with Flutter, creating cross-platform applications for iOS and Android.',
-    tags: ['Flutter', 'Dart', 'Mobile'],
-  },
-  {
-    year: '2025',
+    year: 'May 2024 – Sep 2025',
     emoji: '🤖',
-    title: 'AI & IoT Research',
+    title: 'Prompter Assistant & NLP',
     description:
-      'Began exploring disaster monitoring systems, IoT integration, and AI-powered predictive systems. Participated in NAISC by AI Singapore.',
-    tags: ['AI', 'IoT', 'Python'],
+      'Freelance remote work for a top AI company based in Singapore. Focused on checking and analyzing the behavior of AI models under development, contributing to natural language processing quality assurance.',
+    tags: ['NLP', 'AI', 'Prompt Engineering', 'Remote'],
+    location: 'Singapore · Remote',
+    type: 'Freelance',
   },
   {
-    year: '2026',
-    emoji: '🚀',
-    title: 'Portfolio & Open Source',
+    year: 'Sep 2025 – Dec 2025',
+    emoji: '🏗️',
+    title: 'Web & Software Developer',
     description:
-      'Building a public presence with open-source projects, expanding full-stack expertise, and pursuing freelance opportunities.',
-    tags: ['React', 'Vite', 'Open Source'],
+      'Freelance part-time engagement with a well-known steel fabrication company. Developed a customized ERP system to streamline operations, improve efficiency, and support large-scale project management needs.',
+    tags: ['ERP', 'Web Development', 'Backend', 'PHP'],
+    location: 'Philippines · Part-time',
+    type: 'Freelance',
+  },
+  {
+    year: 'Feb 2026 – Present',
+    emoji: '💳',
+    title: 'Software Developer — Pisopay.com Inc.',
+    description:
+      'Internship at Pisopay Inc. working on real-world software development and financial technology systems. Developing and improving web-based applications, fixing bugs, and supporting system enhancements for smooth and secure digital transactions.',
+    tags: ['Fintech', 'Web Apps', 'Bug Fixing', 'Code Review'],
+    location: 'Makati, Philippines · On-site',
+    type: 'Internship',
   },
 ]
 
@@ -75,9 +65,20 @@ function TimelineCard({ item, index }) {
             <span className="text-2xl">{item.emoji}</span>
           </div>
 
-          <h3 className={`text-xl md:text-2xl font-bold mb-3 ${isIndigo ? 'text-accent-teal' : 'text-accent-amber'}`}>
+          <h3 className={`text-xl md:text-2xl font-bold mb-2 ${isIndigo ? 'text-accent-teal' : 'text-accent-amber'}`}>
             {item.title}
           </h3>
+
+          {(item.type || item.location) && (
+            <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-400 font-code">
+              {item.type && (
+                <span className="px-2 py-0.5 rounded-full bg-accent-amber/10 border border-accent-amber/20 text-accent-amber font-semibold">
+                  {item.type}
+                </span>
+              )}
+              {item.location && <span>{item.location}</span>}
+            </div>
+          )}
 
           <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-5">
             {item.description}

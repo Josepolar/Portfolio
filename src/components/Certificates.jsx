@@ -4,6 +4,26 @@ import { FiAward, FiExternalLink, FiCalendar, FiHash } from 'react-icons/fi'
 const certificates = [
   {
     id: 1,
+    title: 'CCNA: Switching, Routing, and Wireless Essentials',
+    issuer: 'Cisco',
+    issuerFull: 'Cisco Networking Academy — Verified by Credly',
+    date: 'July 11, 2025',
+    credentialId: '80eb06f1-061d-4330-a32f-64a5acc51bda',
+    skills: [
+      'Switching Protocols',
+      'Routing',
+      'Wireless LAN Controllers',
+      'Access Security',
+      'High Availability',
+      'IP Services',
+      'First-hop Redundancy',
+    ],
+    verifyUrl:
+      'https://www.credly.com/badges/80eb06f1-061d-4330-a32f-64a5acc51bda/linked_in_profile',
+    featured: true,
+  },
+  {
+    id: 2,
     title: 'NAISC Certificate of Participation',
     issuer: 'AI Singapore',
     issuerFull: 'National AI Student Challenge — AI Singapore (NUS-hosted)',
@@ -12,7 +32,7 @@ const certificates = [
     skills: ['Artificial Intelligence', 'Machine Learning', 'Deep Tech', 'AI Policy'],
     verifyUrl:
       'https://certificates.aisingapore.org/certificate-verification/36D4FFE-36D4F9F-3500469/',
-    featured: true,
+    featured: false,
   },
 ]
 
