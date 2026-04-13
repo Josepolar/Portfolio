@@ -56,15 +56,18 @@ function SkillsMatrix() {
   return (
     <section id="skills" className="py-20 px-4 bg-dark-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold font-code text-center mb-16"
+        <motion.div
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="text-accent-teal">Skills</span> & Expertise
-        </motion.h2>
+          <p className="section-eyebrow justify-center">What I work with</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-code">
+            <span className="text-accent-teal">Skills</span> &amp; Expertise
+          </h2>
+        </motion.div>
 
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"

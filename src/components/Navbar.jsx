@@ -12,6 +12,7 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
     { label: 'Contributions', href: '#featured' },
     { label: 'GitHub', href: '#github' },
     { label: 'Timeline', href: '#timeline' },
+    { label: 'Certificates', href: '#certificates' },
     { label: 'Contact', href: '#contact' },
   ]
 

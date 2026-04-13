@@ -124,15 +124,18 @@ function GitHubRepos() {
   return (
     <section id="github" className="py-20 px-4 bg-dark-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold font-code text-center mb-4"
+        <motion.div
+          className="text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="text-accent-teal">GitHub</span> Repositories
-        </motion.h2>
+          <p className="section-eyebrow justify-center">Source code</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-code">
+            <span className="text-accent-teal">GitHub</span> Repositories
+          </h2>
+        </motion.div>
 
         <p className="text-center text-gray-400 mb-8">
           Explore my open-source projects and contributions
@@ -153,7 +156,7 @@ function GitHubRepos() {
               placeholder="Search repositories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-3 bg-dark-secondary rounded-lg border border-accent-teal/20 text-white placeholder-gray-500 focus:outline-none focus:border-accent-teal"
+              className="w-full px-4 py-3 bg-dark-secondary/50 rounded-lg border border-accent-teal/20 text-porcelain placeholder-slate_mist/50 focus:outline-none focus:border-accent-teal transition-colors"
             />
           </div>
 
@@ -172,7 +175,7 @@ function GitHubRepos() {
                     className={`px-4 py-2 rounded-full transition-colors text-sm font-semibold ${
                       selectedLanguage === lang
                         ? 'bg-accent-teal text-dark-bg'
-                        : 'bg-dark-secondary text-gray-300 hover:border-accent-teal border border-transparent'
+                        : 'bg-accent-teal/10 text-accent-teal border border-accent-teal/20 hover:bg-accent-teal/20'
                     }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -191,7 +194,7 @@ function GitHubRepos() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-2 bg-dark-secondary rounded-lg border border-accent-teal/20 text-white focus:outline-none focus:border-accent-teal"
+                className="w-full px-4 py-2 bg-dark-secondary/50 rounded-lg border border-accent-teal/20 text-porcelain focus:outline-none focus:border-accent-teal"
               >
                 <option value="recent">Most Recent</option>
                 <option value="stars">Most Stars</option>

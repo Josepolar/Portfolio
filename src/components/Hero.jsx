@@ -62,6 +62,15 @@ function Hero() {
     >
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
+          className="mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+        >
+          <p className="section-eyebrow justify-center">Full-Stack Developer · Philippines</p>
+        </motion.div>
+
+        <motion.div
           className="mb-6"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

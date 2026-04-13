@@ -22,8 +22,8 @@ function Contact() {
     {
       icon: '💼',
       label: 'LinkedIn',
-      value: 'LinkedIn Profile',
-      href: '#',
+      value: 'linkedin.com/in/jose-fernandez-7058b12a7',
+      href: 'https://www.linkedin.com/in/jose-fernandez-7058b12a7',
     },
     {
       icon: '🐙',
@@ -139,15 +139,18 @@ function Contact() {
     <section id="contact" className="py-20 px-4 bg-dark-secondary/30">
       <Toaster position="bottom-right" />
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold font-code text-center mb-16"
+        <motion.div
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          Let's <span className="text-accent-teal">Connect</span>
-        </motion.h2>
+          <p className="section-eyebrow justify-center">Get in touch</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-code">
+            Let’s <span className="text-accent-teal">Connect</span>
+          </h2>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
@@ -204,9 +207,11 @@ function Contact() {
                 🐙
               </motion.a>
               <motion.a
-                href="#"
+                href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
                 className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal transition-colors"
                 whileHover={{ scale: 1.1, rotate: 5 }}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 💼
               </motion.a>

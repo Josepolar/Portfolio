@@ -26,19 +26,22 @@ function About() {
   return (
     <section id="about" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold font-code text-center mb-16"
+        <motion.div
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="text-accent-teal">About</span> Me
-        </motion.h2>
+          <p className="section-eyebrow justify-center">Who I am</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-code">
+            <span className="text-accent-teal">About</span> Me
+          </h2>
+        </motion.div>
 
         <div
           className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] gap-12 items-center"
-          onClick={() => setLastInteraction(Date.now())}
+          onMouseMove={() => setLastInteraction(Date.now())}
           onTouchStart={() => setLastInteraction(Date.now())}
         >
           {/* Left side - Profile cards */}
@@ -81,15 +84,19 @@ function About() {
             viewport={{ once: true }}
           >
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              I'm a Full-Stack Developer passionate about building scalable systems and elegant user experiences. With a strong foundation in Laravel, React, and Flutter, I craft solutions that bridge the gap between complex technical requirements and user needs.
+              I’m a Full-Stack Developer passionate about building scalable systems and elegant
+              user experiences. With a strong foundation in Laravel, React, and Flutter, I craft
+              solutions that bridge the gap between complex technical requirements and user needs.
             </p>
 
             <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-              Currently exploring the intersection of IoT, AI, and disaster management systems. I believe technology should serve communities and solve real-world problems, especially in the Philippine context.
+              Currently exploring the intersection of IoT, AI, and disaster management systems.
+              I believe technology should serve communities and solve real-world problems,
+              especially in the Philippine context.
             </p>
 
-            <p className="text-gray-400 mb-8 italic">
-              "I debug with coffee ☕ and deploy with confidence."
+            <p className="text-gray-400 mb-8 italic border-l-2 border-accent-amber/40 pl-4">
+              “I debug with coffee ☕ and deploy with confidence.”
             </p>
           </motion.div>
         </div>

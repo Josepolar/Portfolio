@@ -7,26 +7,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Coolors palette:
-        // https://coolors.co/palette/0d1b2a-1b263b-415a77-778da9-e0e1dd
-        abyss: '#0d1b2a',
-        deep_slate: '#1b263b',
-        steel_blue: '#415a77',
-        slate_mist: '#778da9',
-        porcelain: '#e0e1dd',
+        // ── Fixed dark palette ────────────────────────────────
+        'dark-bg':        '#07091e',
+        'dark-secondary': '#0b1229',
+        abyss:            '#07091e',
+        deep_slate:       '#0b1229',
 
-        // Keep existing token names used across components.
-        'dark-bg': '#0d1b2a', // abyss
-        'dark-secondary': '#1b263b', // deep_slate
-        'accent-teal': '#778da9', // slate_mist
-        'accent-amber': '#415a77', // steel_blue
+        // ── Fixed light palette ───────────────────────────────
+        porcelain:        '#e8eaf6',   // light text on dark bg
+        'light-bg':       '#f7f8ff',   // true light mode background
+        'light-surface':  '#eef0ff',   // light mode card surface
+
+        // ── CSS-variable-driven (switches per theme) ──────────
+        // In CSS: --accent-primary  = space-separated R G B values
+        //         --accent-secondary = space-separated R G B values
+        'accent-teal':  'rgb(var(--accent-primary)  / <alpha-value>)',
+        'accent-amber': 'rgb(var(--accent-secondary) / <alpha-value>)',
+        'steel_blue':   'rgb(var(--accent-primary)  / <alpha-value>)',
+        'slate_mist':   'rgb(var(--accent-secondary) / <alpha-value>)',
       },
       fontFamily: {
         'code': ['JetBrains Mono', 'monospace'],
         'body': ['Lato', 'sans-serif'],
       },
       spacing: {
-        'safe-top': 'max(1rem, env(safe-area-inset-top))',
+        'safe-top':    'max(1rem, env(safe-area-inset-top))',
         'safe-bottom': 'max(1rem, env(safe-area-inset-bottom))',
       },
     },

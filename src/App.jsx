@@ -1,12 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Hero from './components/Hero'
 import About from './components/About'
 import SkillsMatrix from './components/SkillsMatrix'
 import GitHubRepos from './components/GitHubRepos'
 import FeaturedProjects from './components/FeaturedProjects'
 import Timeline from './components/Timeline'
+import Certificates from './components/Certificates'
 import Contact from './components/Contact'
 import Navbar from './components/Navbar'
+import Lenis from 'lenis'
+import ReactLenis from 'lenis/react'
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -14,6 +18,18 @@ function App() {
     if (saved === 'light' || saved === 'dark') return saved
     return window.matchMedia?.('(prefers-color-scheme: light)')?.matches ? 'light' : 'dark'
   })
+  const lenisRef = useRef()
+  
+  useEffect(() => {
+    function update(time) {
+      lenisRef.current?.lenis?.raf(time)
+    }
+  
+    const rafId = requestAnimationFrame(update)
+  
+    return () => cancelAnimationFrame(rafId)
+  }, [])
+
 
   useEffect(() => {
     // Initialize custom cursor interactions
@@ -35,37 +51,46 @@ function App() {
   }, [theme])
 
   const rootClassName = useMemo(() => {
-    return theme === 'light' ? 'bg-porcelain text-abyss' : 'bg-dark-bg text-porcelain'
+    return theme === 'light' ? 'bg-light-bg text-abyss' : 'bg-dark-bg text-porcelain'
   }, [theme])
 
   return (
-    <div className={rootClassName}>
-      {/* Navigation */}
-      <Navbar theme={theme} onToggleTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} />
+   <> <ReactLenis root options={{ autoRaf: false }} ref={lenisRef} />
+   <div className={rootClassName}>
+     {/* Navigation */}
+     <Navbar theme={theme} onToggleTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} />
 
-      {/* Main Content */}
-      <main>
-        <Hero />
-        <About />
-        <SkillsMatrix />
-        <FeaturedProjects theme={theme} />
-        <GitHubRepos />
-        <Timeline />
-        <Contact />
-      </main>
+     {/* Main Content */}
+     <main>
+       <Hero />
+       <About />
+       <SkillsMatrix />
+       <FeaturedProjects theme={theme} />
+       <GitHubRepos />
+       <Timeline />
+       <Certificates />
+       <Contact />
+     </main>
 
-      {/* Footer */}
-      <footer className="bg-dark-secondary border-t border-accent-teal/10 py-8 mt-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            Built with <span className="text-accent-teal">React</span> + <span className="text-accent-teal">Vite</span> | Designed with precision
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            © 2026 Jose Bernard R. Fernandez — Full-Stack Developer from the Philippines
-          </p>
-        </div>
-      </footer>
-    </div>
+     {/* Footer */}
+     <footer className="border-t border-accent-teal/10 py-10">
+       <div className="max-w-6xl mx-auto px-6">
+         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+           <p className="font-code text-sm text-accent-teal tracking-wide">Jose.dev</p>
+           <p className="text-sm text-gray-400">
+             Built with{' '}
+             <span className="text-accent-teal font-semibold">React</span>
+             {' + '}
+             <span className="text-accent-amber font-semibold">Vite</span>
+             {' — crafted with precision'}
+           </p>
+           <p className="text-xs text-gray-500">
+             &copy; 2026 Jose Bernard R. Fernandez
+           </p>
+         </div>
+       </div>
+     </footer>
+   </div></>
   )
 }
 
