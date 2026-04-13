@@ -1,7 +1,25 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import toast, { Toaster } from 'react-hot-toast'
+
+// Detect placeholder / missing values at module load (not on every render)
+const EMAILJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ''
+const EMAILJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
+const EMAILJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  || ''
+const CONTACT_EMAIL    = import.meta.env.VITE_CONTACT_EMAIL        || ''
+
+const isPlaceholder = (v) => !v || v.startsWith('your_') || v === 'undefined'
+
+const emailjsReady =
+  !isPlaceholder(EMAILJS_SERVICE) &&
+  !isPlaceholder(EMAILJS_TEMPLATE) &&
+  !isPlaceholder(EMAILJS_KEY)
+
+// Init once at module level (safe to call even before any send)
+if (emailjsReady) {
+  emailjs.init({ publicKey: EMAILJS_KEY })
+}
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -39,6 +57,8 @@ function Contact() {
     },
   ]
 
+  const formRef = useRef(null)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -54,39 +74,45 @@ function Contact() {
 
     setIsSubmitting(true)
 
-    try {
-      // Initialize EmailJS (only once)
-      if (!window.emailjsInitialized) {
-        emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
-        window.emailjsInitialized = true
-      }
-
-      // For now, we'll show a success message
-      // In production, configure EmailJS with proper service ID and template ID
-      if (
-        import.meta.env.VITE_EMAILJS_SERVICE_ID &&
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-      ) {
+    // ── EmailJS path ───────────────────────────────────────
+    if (emailjsReady) {
+      try {
         await emailjs.send(
-          import.meta.env.VITE_EMAILJS_SERVICE_ID,
-          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          EMAILJS_SERVICE,
+          EMAILJS_TEMPLATE,
           {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
-            to_email: import.meta.env.VITE_CONTACT_EMAIL,
+            from_name:    formData.name,
+            reply_to:     formData.email,
+            from_email:   formData.email,
+            message:      formData.message,
+            to_email:     CONTACT_EMAIL,
           }
         )
+        toast.success("Message sent! I'll get back to you soon.")
+        setFormData({ name: '', email: '', message: '' })
+        setStep(1)
+      } catch (err) {
+        console.error('EmailJS error:', err)
+        toast.error('Failed to send. Redirecting to email client...')
+        // Fallback: open mailto so message is never lost
+        setTimeout(() => openMailto(), 1200)
+      } finally {
+        setIsSubmitting(false)
       }
-
-      toast.success('Message sent successfully! I\'ll get back to you soon.')
-      setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
-      console.error('Error sending message:', error)
-      toast.error('Failed to send message. Please try again or email directly.')
-    } finally {
-      setIsSubmitting(false)
+      return
     }
+
+    // ── Fallback: mailto (shown when EmailJS not configured) ──
+    openMailto()
+    setIsSubmitting(false)
+  }
+
+  const openMailto = () => {
+    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
+    const body    = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+    )
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`
   }
 
   const handleChange = (e) => {
@@ -408,13 +434,19 @@ function Contact() {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting
+                    ? 'Sending...'
+                    : emailjsReady
+                    ? 'Send Message'
+                    : 'Open Email App ↗'}
                 </motion.button>
               )}
             </div>
 
             <p className="text-xs text-gray-500 text-center mt-4">
-              Your information is secure and will only be used to respond to your message.
+              {emailjsReady
+                ? 'Your message will be delivered directly to my inbox.'
+                : 'Clicking Send will open your email client with the message pre-filled.'}
             </p>
           </motion.form>
         </div>
