@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
 import axios from 'axios'
 import DecryptedText from './DecryptedText'
 import TechStackIcons from './TechStackIcons'
@@ -7,6 +7,8 @@ import TechStackIcons from './TechStackIcons'
 function Hero() {
   const [gitHubStats, setGitHubStats] = useState(null)
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
+  const sectionRef = useRef(null)
+  const roleRef = useRef(null)
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -32,21 +34,32 @@ function Hero() {
     fetchGitHubStats()
   }, [])
 
-  // Cycle through roles
+  // GSAP entrance timeline
   useEffect(() => {
-    const roles = [
-      'Full-Stack Developer',
-      'Laravel Engineer',
-      'Flutter Builder',
-      'AI Systems Thinker',
-      'IoT Enthusiast',
-    ]
-    const interval = setInterval(() => {
-      setCurrentRoleIndex((prev) => (prev + 1) % roles.length)
-    }, 3000)
-    return () => clearInterval(interval)
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
+      tl.fromTo('.hero-eyebrow', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 0.05)
+        .fromTo('.hero-name', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, 0.1)
+        .fromTo('.hero-headline', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, 0.15)
+        .fromTo('.hero-subtitle', { opacity: 0 }, { opacity: 1, duration: 0.8 }, 0.3)
+        .fromTo('.hero-stats', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5 }, 0.5)
+        .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, 0.6)
+        .fromTo('.hero-tech', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 0.75)
+
+      // Scroll indicator bounce
+      gsap.to('.hero-scroll-indicator', {
+        y: 10,
+        duration: 1,
+        ease: 'power1.inOut',
+        repeat: -1,
+        yoyo: true,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
+  // Cycle through roles
   const roles = [
     'Full-Stack Developer',
     'Laravel Engineer',
@@ -55,27 +68,31 @@ function Hero() {
     'IoT Enthusiast',
   ]
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentRoleIndex((prev) => (prev + 1) % roles.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [roles.length])
+
+  // Animate role text swap with GSAP
+  useEffect(() => {
+    if (!roleRef.current) return
+    gsap.fromTo(roleRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+  }, [currentRoleIndex])
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="min-h-screen flex items-center justify-center pt-20 pb-20 px-4"
     >
       <div className="max-w-4xl mx-auto text-center">
-        <motion.div
-          className="mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-        >
+        <div className="hero-eyebrow mb-4 opacity-0">
           <p className="section-eyebrow justify-center">Full-Stack Developer · Philippines</p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="mb-6"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-        >
+        <div className="hero-name mb-6 opacity-0">
           <DecryptedText
             text="jose Bernard fernandez"
             animateOn="view"
@@ -86,99 +103,61 @@ function Hero() {
             className="text-accent-teal"
             encryptedClassName="text-accent-amber"
           />
-        </motion.div>
+        </div>
 
         {/* Main headline with animated roles */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <div className="hero-headline opacity-0">
           <h1 className="text-5xl md:text-7xl font-bold font-code mb-6 leading-tight">
             <span className="text-accent-teal">I Build</span>
             <br />
-            <motion.span
-              className="text-accent-amber"
-              key={currentRoleIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
+            <span ref={roleRef} className="text-accent-amber inline-block">
               {roles[currentRoleIndex]}
-            </motion.span>
+            </span>
           </h1>
-        </motion.div>
+        </div>
 
         {/* Subtitle */}
-        <motion.p
-          className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-        >
+        <p className="hero-subtitle text-xl text-gray-300 mb-8 max-w-2xl mx-auto opacity-0">
           A passionate developer from the Philippines specializing in scalable web
           systems, mobile applications, and AI-integrated solutions. Currently crafting
           digital experiences that matter.
-        </motion.p>
+        </p>
 
         {/* GitHub stats pill */}
         {gitHubStats && (
-          <motion.div
-            className="inline-block glass-card px-6 py-3 mb-8 text-sm"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
-          >
+          <div className="hero-stats inline-block glass-card px-6 py-3 mb-8 text-sm opacity-0">
             <span className="text-accent-teal font-code">⭐ {gitHubStats.repos}</span>
             <span className="mx-3 text-gray-600">•</span>
             <span className="text-accent-amber font-code">
               👥 {gitHubStats.followers}
             </span>
-          </motion.div>
+          </div>
         )}
 
         {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-        >
-          <motion.a
+        <div className="hero-cta flex flex-col sm:flex-row gap-4 justify-center mb-12 opacity-0">
+          <a
             href="#featured"
-            className="px-8 py-3 bg-accent-teal text-dark-bg font-bold rounded-lg hover:bg-accent-amber transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="px-8 py-3 bg-accent-teal text-dark-bg font-bold rounded-lg hover:bg-accent-amber hover:scale-105 active:scale-95 transition-all"
           >
             View Projects
-          </motion.a>
-          <motion.a
+          </a>
+          <a
             href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`}
             target="_blank"
-            className="px-8 py-3 border-2 border-accent-teal text-accent-teal font-bold rounded-lg hover:bg-accent-teal/10 transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="px-8 py-3 border-2 border-accent-teal text-accent-teal font-bold rounded-lg hover:bg-accent-teal/10 hover:scale-105 active:scale-95 transition-all"
           >
             GitHub ↗
-          </motion.a>
-        </motion.div>
+          </a>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.6 }}
-        >
+        <div className="hero-tech opacity-0">
           <p className="text-sm text-gray-400 font-code mb-4">Tech I ship with</p>
           <TechStackIcons />
-        </motion.div>
+        </div>
 
         {/* Scroll indicator */}
-        <motion.div
-          className="flex justify-center mt-16"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
+        <div className="hero-scroll-indicator flex justify-center mt-16">
           <svg
             className="w-6 h-6 text-accent-teal"
             fill="none"
@@ -192,7 +171,7 @@ function Hero() {
               d="M19 14l-7 7m0 0l-7-7m7 7V3"
             />
           </svg>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

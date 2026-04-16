@@ -34,6 +34,15 @@ export default {
         'safe-top':    'max(1rem, env(safe-area-inset-top))',
         'safe-bottom': 'max(1rem, env(safe-area-inset-bottom))',
       },
+      keyframes: {
+        marquee: {
+          '0%':   { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 22s linear infinite',
+      },
     },
   },
   plugins: [],

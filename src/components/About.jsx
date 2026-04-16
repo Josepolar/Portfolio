@@ -1,6 +1,10 @@
-﻿import { useEffect, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ProfileCard from './ProfileCard'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const profiles = [
   {
@@ -74,6 +78,7 @@ function About() {
   const [activeProfile, setActiveProfile] = useState(0)
   const [lastInteraction, setLastInteraction] = useState(() => Date.now())
   const [modalIndex, setModalIndex] = useState(null)
+  const sectionRef = useRef(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,54 +91,59 @@ function About() {
     return () => clearInterval(interval)
   }, [lastInteraction])
 
+  // GSAP scroll animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.about-header', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.about-header', start: 'top 85%', once: true },
+      })
+
+      gsap.fromTo('.about-cards .profile-item', { opacity: 0, y: 16 }, {
+        opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '.about-cards', start: 'top 85%', once: true },
+      })
+
+      gsap.fromTo('.about-text', { opacity: 0, x: 20 }, {
+        opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.about-text', start: 'top 85%', once: true },
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="about" className="py-20 px-4">
+    <section id="about" className="py-20 px-4" ref={sectionRef}>
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="about-header text-center mb-16 opacity-0">
           <p className="section-eyebrow justify-center">Who I am</p>
           <h2 className="text-4xl md:text-5xl font-bold font-code">
             <span className="text-accent-teal">About</span> Me
           </h2>
-        </motion.div>
+        </div>
 
         <div
           className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] gap-12 items-center"
           onMouseMove={() => setLastInteraction(Date.now())}
           onTouchStart={() => setLastInteraction(Date.now())}
         >
-          <div className="flex justify-center">
+          <div className="about-cards flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
               {profiles.map((p, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: i * 0.1 }}
-                >
+                <div key={i} className="profile-item opacity-0">
                   <ProfileCard
                     {...p}
                     active={activeProfile === i}
                     onActivate={() => { setActiveProfile(i); setLastInteraction(Date.now()) }}
                     onOpen={() => setModalIndex(i)}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
+          <div className="about-text opacity-0">
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
               I am a Full-Stack Developer passionate about building scalable systems and elegant
               user experiences. With a strong foundation in Laravel, React, and Flutter, I craft
@@ -147,7 +157,7 @@ function About() {
             <p className="text-gray-400 mb-8 italic border-l-2 border-accent-amber/40 pl-4">
               "I debug with coffee and deploy with confidence."
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 

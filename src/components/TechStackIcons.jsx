@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import {
   SiReact,
   SiVite,
@@ -31,22 +30,14 @@ export default function TechStackIcons({ className = '' }) {
   return (
     <div className={className} aria-label="Tech stack">
       <div className="relative overflow-hidden py-2">
-        <motion.div
-          className="flex gap-4 whitespace-nowrap"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: 22,
-            ease: 'linear',
-          }}
+        <div
+          className="flex gap-4 whitespace-nowrap animate-marquee"
+          style={{ width: 'max-content' }}
         >
           {[...STACK, ...STACK].map(({ label, Icon }, index) => (
-            <motion.div
+            <div
               key={`${label}-${index}`}
-              className="group relative mx-1"
-              whileHover={{ y: -4, scale: 1.05 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+              className="group relative mx-1 transition-transform duration-200 hover:-translate-y-1 hover:scale-105"
             >
               <div className="glass-card !p-3 flex items-center justify-center border border-accent-teal/10 hover:border-accent-teal/40 transition-colors bg-dark-secondary/60">
                 <Icon className="w-6 h-6 text-gray-200 group-hover:text-accent-teal transition-colors" />
@@ -57,9 +48,9 @@ export default function TechStackIcons({ className = '' }) {
                   {label}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   )

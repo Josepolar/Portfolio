@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
 import axios from 'axios'
 
 function fmtDate(dateStr) {
@@ -157,17 +156,15 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
               {weeks.map((week, wIdx) => (
                 <div key={wIdx} className="flex flex-col gap-[3px]">
                   {week.map((day) => (
-                    <motion.div
+                    <div
                       key={day.date}
-                      className="relative group rounded-[3px]"
+                      className="relative group rounded-[3px] transition-transform duration-150 hover:scale-125"
                       style={{
                         width: 12,
                         height: 12,
                         backgroundColor: colors[Math.min(4, Math.max(0, day.level ?? 0))],
                         outline: '1px solid rgba(255,255,255,0.06)',
                       }}
-                      whileHover={{ scale: 1.25 }}
-                      transition={{ type: 'spring', stiffness: 520, damping: 28 }}
                     >
                       <div className="pointer-events-none absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="px-3 py-2 rounded-md bg-dark-secondary/95 border border-accent-teal/20 text-[11px] text-porcelain whitespace-nowrap shadow-lg">
@@ -175,7 +172,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
                           <span className="text-slate_mist"> • {fmtDate(day.date)}</span>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               ))}

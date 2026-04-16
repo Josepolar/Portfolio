@@ -1,5 +1,9 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollStack, ScrollStackItem } from './ScrollStack'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const timeline = [
   {
@@ -101,23 +105,33 @@ function TimelineCard({ item, index }) {
 }
 
 function Timeline() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.timeline-header', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.timeline-header', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.timeline-end', { opacity: 0 }, {
+        opacity: 1, duration: 0.6, delay: 0.4, ease: 'power2.out',
+        scrollTrigger: { trigger: '.timeline-end', start: 'top 85%', once: true },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="timeline" className="py-20 px-4">
+    <section id="timeline" className="py-20 px-4" ref={sectionRef}>
       <div className="max-w-4xl mx-auto">
         {/* Section header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="timeline-header text-center mb-12 opacity-0">
           <p className="section-eyebrow justify-center">My journey</p>
           <h2 className="text-4xl md:text-5xl font-bold font-code">
             <span className="text-accent-teal">Experience</span> Timeline
           </h2>
           <p className="mt-4 text-gray-400 text-sm">Scroll to flip through each chapter</p>
-        </motion.div>
+        </div>
 
         {/* ScrollStack — cards fan in from below as you scroll */}
         <ScrollStack
@@ -135,20 +149,14 @@ function Timeline() {
         </ScrollStack>
 
         {/* End marker */}
-        <motion.div
-          className="text-center mt-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          viewport={{ once: true }}
-        >
+        <div className="timeline-end text-center mt-8 opacity-0">
           <div className="inline-block glass-card px-6 py-4">
             <p className="text-gray-400 text-sm">
               Currently building the future
               <span className="text-accent-teal font-bold ml-2">→ 2026+</span>
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

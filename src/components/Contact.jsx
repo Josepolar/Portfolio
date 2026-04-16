@@ -1,7 +1,10 @@
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import emailjs from '@emailjs/browser'
 import toast, { Toaster } from 'react-hot-toast'
+
+gsap.registerPlugin(ScrollTrigger)
 
 // Detect placeholder / missing values at module load (not on every render)
 const EMAILJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ''
@@ -57,7 +60,46 @@ function Contact() {
     },
   ]
 
-  const formRef = useRef(null)
+  const sectionRef = useRef(null)
+  const stepContentRef = useRef(null)
+  const progressRef = useRef(null)
+
+  // GSAP scroll animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.contact-header', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-header', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.contact-info', { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-info', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.contact-link-item', { opacity: 0, y: 10 }, {
+        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-info', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.contact-social', { opacity: 0 }, {
+        opacity: 1, duration: 0.5, delay: 0.5, ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-social', start: 'top 90%', once: true },
+      })
+      gsap.fromTo('.contact-form', { opacity: 0, x: 20 }, {
+        opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-form', start: 'top 85%', once: true },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  // Animate step content transitions
+  useEffect(() => {
+    if (stepContentRef.current) {
+      gsap.fromTo(stepContentRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' })
+    }
+    if (progressRef.current) {
+      gsap.to(progressRef.current, { width: `${(step / 3) * 100}%`, duration: 0.4, ease: 'power2.out' })
+    }
+  }, [step])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -74,7 +116,6 @@ function Contact() {
 
     setIsSubmitting(true)
 
-    // ── EmailJS path ───────────────────────────────────────
     if (emailjsReady) {
       try {
         await emailjs.send(
@@ -94,7 +135,6 @@ function Contact() {
       } catch (err) {
         console.error('EmailJS error:', err)
         toast.error('Failed to send. Redirecting to email client...')
-        // Fallback: open mailto so message is never lost
         setTimeout(() => openMailto(), 1200)
       } finally {
         setIsSubmitting(false)
@@ -102,7 +142,6 @@ function Contact() {
       return
     }
 
-    // ── Fallback: mailto (shown when EmailJS not configured) ──
     openMailto()
     setIsSubmitting(false)
   }
@@ -117,93 +156,55 @@ function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const validateStep = (s) => {
     if (s === 1) {
-      if (!formData.name.trim()) {
-        toast.error('Please enter your name')
-        return false
-      }
+      if (!formData.name.trim()) { toast.error('Please enter your name'); return false }
       return true
     }
     if (s === 2) {
-      if (!formData.email.trim()) {
-        toast.error('Please enter your email')
-        return false
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        toast.error('Please enter a valid email address')
-        return false
-      }
+      if (!formData.email.trim()) { toast.error('Please enter your email'); return false }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) { toast.error('Please enter a valid email address'); return false }
       return true
     }
     if (s === 3) {
-      if (!formData.message.trim()) {
-        toast.error('Please enter a message')
-        return false
-      }
+      if (!formData.message.trim()) { toast.error('Please enter a message'); return false }
       return true
     }
     return true
   }
 
-  const next = () => {
-    if (!validateStep(step)) return
-    setStep((v) => Math.min(3, v + 1))
-  }
-
-  const back = () => {
-    setStep((v) => Math.max(1, v - 1))
-  }
+  const next = () => { if (!validateStep(step)) return; setStep((v) => Math.min(3, v + 1)) }
+  const back = () => { setStep((v) => Math.max(1, v - 1)) }
 
   return (
-    <section id="contact" className="py-20 px-4 bg-dark-secondary/30">
+    <section id="contact" className="py-20 px-4 bg-dark-secondary/30" ref={sectionRef}>
       <Toaster position="bottom-right" />
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="contact-header text-center mb-16 opacity-0">
           <p className="section-eyebrow justify-center">Get in touch</p>
           <h2 className="text-4xl md:text-5xl font-bold font-code">
-            Let’s <span className="text-accent-teal">Connect</span>
+            Let's <span className="text-accent-teal">Connect</span>
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <motion.div
-            className="space-y-6"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
+          <div className="contact-info space-y-6 opacity-0">
             <p className="text-lg text-gray-300 mb-8">
               I'm always interested in hearing about new projects and opportunities. Feel free
               to reach out if you'd like to collaborate or just say hello!
             </p>
 
             {contactLinks.map((link, index) => (
-              <motion.a
+              <a
                 key={index}
                 href={link.href}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="glass-card p-4 flex items-center gap-4 group hover:border-accent-teal transition-all"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                viewport={{ once: true }}
-                whileHover={{ x: 4 }}
+                className="contact-link-item glass-card p-4 flex items-center gap-4 group hover:border-accent-teal hover:translate-x-1 transition-all opacity-0"
               >
                 <span className="text-3xl">{link.icon}</span>
                 <div>
@@ -212,53 +213,40 @@ function Contact() {
                     {link.value}
                   </p>
                 </div>
-              </motion.a>
+              </a>
             ))}
 
             {/* Social links */}
-            <motion.div
-              className="flex gap-4 mt-8 pt-8 border-t border-accent-teal/20"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <motion.a
+            <div className="contact-social flex gap-4 mt-8 pt-8 border-t border-accent-teal/20 opacity-0">
+              <a
                 href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`}
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 🐙
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 💼
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="#"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
               >
                 🐦
-              </motion.a>
-            </motion.div>
-          </motion.div>
+              </a>
+            </div>
+          </div>
 
           {/* Contact Form */}
-          <motion.form
+          <form
             onSubmit={handleSubmit}
-            className="glass-card p-8"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            className="contact-form glass-card p-8 opacity-0"
           >
             {/* Stepper header */}
             <div className="mb-8">
@@ -274,9 +262,7 @@ function Contact() {
                     <div key={s.n} className="flex items-center flex-1">
                       <button
                         type="button"
-                        onClick={() => {
-                          if (s.n < step && validateStep(s.n)) setStep(s.n)
-                        }}
+                        onClick={() => { if (s.n < step && validateStep(s.n)) setStep(s.n) }}
                         className="flex items-center gap-3 text-left"
                         aria-label={`Step ${s.n}: ${s.label}`}
                       >
@@ -291,22 +277,16 @@ function Contact() {
                         >
                           {s.n}
                         </span>
-                        <span
-                          className={`text-sm font-semibold transition-colors ${
-                            active ? 'text-porcelain' : 'text-slate_mist'
-                          }`}
-                        >
+                        <span className={`text-sm font-semibold transition-colors ${active ? 'text-porcelain' : 'text-slate_mist'}`}>
                           {s.label}
                         </span>
                       </button>
 
                       {idx !== arr.length - 1 && (
                         <div className="flex-1 mx-3 h-[2px] rounded bg-accent-teal/10 overflow-hidden">
-                          <motion.div
-                            className="h-full bg-accent-teal"
-                            initial={false}
-                            animate={{ width: step > s.n ? '100%' : '0%' }}
-                            transition={{ duration: 0.35 }}
+                          <div
+                            className="h-full bg-accent-teal transition-all duration-300"
+                            style={{ width: step > s.n ? '100%' : '0%' }}
                           />
                         </div>
                       )}
@@ -315,33 +295,20 @@ function Contact() {
                 })}
               </div>
 
-              <motion.div
-                className="mt-4 h-2 rounded-full bg-accent-teal/10 overflow-hidden"
-                initial={false}
-              >
-                <motion.div
+              <div className="mt-4 h-2 rounded-full bg-accent-teal/10 overflow-hidden">
+                <div
+                  ref={progressRef}
                   className="h-full bg-gradient-to-r from-accent-teal to-accent-amber"
-                  initial={false}
-                  animate={{ width: `${(step / 3) * 100}%` }}
-                  transition={{ duration: 0.4 }}
+                  style={{ width: `${(step / 3) * 100}%` }}
                 />
-              </motion.div>
+              </div>
             </div>
 
             {/* Step content */}
-            <motion.div
-              key={step}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              className="mb-8"
-            >
+            <div ref={stepContentRef} key={step} className="mb-8">
               {step === 1 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">
-                    Your Name
-                  </label>
+                  <label className="block text-sm font-semibold text-slate_mist mb-2">Your Name</label>
                   <input
                     type="text"
                     name="name"
@@ -356,9 +323,7 @@ function Contact() {
 
               {step === 2 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">
-                    Your Email
-                  </label>
+                  <label className="block text-sm font-semibold text-slate_mist mb-2">Your Email</label>
                   <input
                     type="email"
                     name="email"
@@ -373,9 +338,7 @@ function Contact() {
 
               {step === 3 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">
-                    Message
-                  </label>
+                  <label className="block text-sm font-semibold text-slate_mist mb-2">Message</label>
                   <textarea
                     name="message"
                     value={formData.message}
@@ -386,60 +349,44 @@ function Contact() {
                   />
 
                   <div className="mt-5 p-4 rounded-xl border border-accent-teal/15 bg-dark-bg/25">
-                    <p className="text-xs text-slate_mist mb-2 font-code tracking-wide">
-                      Review
-                    </p>
+                    <p className="text-xs text-slate_mist mb-2 font-code tracking-wide">Review</p>
                     <div className="text-sm text-porcelain space-y-1">
-                      <p>
-                        <span className="text-slate_mist">Name:</span> {formData.name || '—'}
-                      </p>
-                      <p>
-                        <span className="text-slate_mist">Email:</span> {formData.email || '—'}
-                      </p>
+                      <p><span className="text-slate_mist">Name:</span> {formData.name || '—'}</p>
+                      <p><span className="text-slate_mist">Email:</span> {formData.email || '—'}</p>
                     </div>
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
 
             {/* Actions */}
             <div className="flex gap-3">
-              <motion.button
+              <button
                 type="button"
                 onClick={back}
                 disabled={step === 1 || isSubmitting}
                 className="flex-1 px-6 py-3 border border-accent-teal/25 text-porcelain rounded-lg hover:bg-accent-teal/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                whileHover={{ scale: step === 1 ? 1 : 1.01 }}
-                whileTap={{ scale: step === 1 ? 1 : 0.99 }}
               >
                 Back
-              </motion.button>
+              </button>
 
               {step < 3 ? (
-                <motion.button
+                <button
                   type="button"
                   onClick={next}
                   disabled={isSubmitting}
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-teal to-accent-amber text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-teal/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
                 >
                   Next
-                </motion.button>
+                </button>
               ) : (
-                <motion.button
+                <button
                   type="submit"
                   disabled={isSubmitting || !validateStep(3)}
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-teal to-accent-amber text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-teal/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
                 >
-                  {isSubmitting
-                    ? 'Sending...'
-                    : emailjsReady
-                    ? 'Send Message'
-                    : 'Open Email App ↗'}
-                </motion.button>
+                  {isSubmitting ? 'Sending...' : emailjsReady ? 'Send Message' : 'Open Email App ↗'}
+                </button>
               )}
             </div>
 
@@ -448,7 +395,7 @@ function Contact() {
                 ? 'Your message will be delivered directly to my inbox.'
                 : 'Clicking Send will open your email client with the message pre-filled.'}
             </p>
-          </motion.form>
+          </form>
         </div>
       </div>
     </section>

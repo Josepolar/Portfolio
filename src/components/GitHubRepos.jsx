@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import axios from 'axios'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function GitHubRepos() {
   const [repos, setRepos] = useState([])
@@ -10,6 +13,8 @@ function GitHubRepos() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLanguage, setSelectedLanguage] = useState('All')
   const [sortBy, setSortBy] = useState('recent')
+  const sectionRef = useRef(null)
+  const gridRef = useRef(null)
 
   const languages = ['All', 'PHP', 'JavaScript', 'Dart', 'Python', 'HTML']
 
@@ -121,34 +126,47 @@ function GitHubRepos() {
     return colors[language] || 'text-gray-400'
   }
 
+  // GSAP scroll animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.repos-header', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: '.repos-header', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.repos-filters', { opacity: 0, y: 10 }, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: '.repos-filters', start: 'top 85%', once: true },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  // Animate repo cards when filteredRepos changes
+  useEffect(() => {
+    if (!gridRef.current || !filteredRepos.length) return
+    const cards = gridRef.current.querySelectorAll('.repo-card')
+    if (!cards.length) return
+    gsap.fromTo(cards, { opacity: 0, y: 20 }, {
+      opacity: 1, y: 0, duration: 0.4, stagger: 0.04, ease: 'power2.out',
+    })
+  }, [filteredRepos])
+
   return (
-    <section id="github" className="py-20 px-4 bg-dark-secondary/30">
+    <section id="github" className="py-20 px-4 bg-dark-secondary/30" ref={sectionRef}>
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          className="text-center mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="repos-header text-center mb-4 opacity-0">
           <p className="section-eyebrow justify-center">Source code</p>
           <h2 className="text-4xl md:text-5xl font-bold font-code">
             <span className="text-accent-teal">GitHub</span> Repositories
           </h2>
-        </motion.div>
+        </div>
 
         <p className="text-center text-gray-400 mb-8">
           Explore my open-source projects and contributions
         </p>
 
         {/* Filters and Search */}
-        <motion.div
-          className="glass-card p-6 mb-8"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <div className="repos-filters glass-card p-6 mb-8 opacity-0">
           {/* Search bar */}
           <div className="mb-6">
             <input
@@ -169,19 +187,17 @@ function GitHubRepos() {
               </label>
               <div className="flex flex-wrap gap-2">
                 {languages.map((lang) => (
-                  <motion.button
+                  <button
                     key={lang}
                     onClick={() => setSelectedLanguage(lang)}
-                    className={`px-4 py-2 rounded-full transition-colors text-sm font-semibold ${
+                    className={`px-4 py-2 rounded-full transition-all text-sm font-semibold hover:scale-105 active:scale-95 ${
                       selectedLanguage === lang
                         ? 'bg-accent-teal text-dark-bg'
                         : 'bg-accent-teal/10 text-accent-teal border border-accent-teal/20 hover:bg-accent-teal/20'
                     }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     {lang}
-                  </motion.button>
+                  </button>
                 ))}
               </div>
             </div>
@@ -202,7 +218,7 @@ function GitHubRepos() {
               </select>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Repositories Grid */}
         {loading ? (
@@ -215,25 +231,17 @@ function GitHubRepos() {
           </div>
         ) : (
           <>
-            <motion.div
+            <div
+              ref={gridRef}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
             >
-              {filteredRepos.map((repo, index) => (
-                <motion.a
+              {filteredRepos.map((repo) => (
+                <a
                   key={repo.id}
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-card p-6 hover:border-accent-teal transition-all group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
+                  className="repo-card glass-card p-6 hover:border-accent-teal hover:-translate-y-1 transition-all group opacity-0"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -282,9 +290,9 @@ function GitHubRepos() {
                       </span>
                     )}
                   </div>
-                </motion.a>
+                </a>
               ))}
-            </motion.div>
+            </div>
 
             {filteredRepos.length === 0 && (
               <div className="text-center py-12">
@@ -292,14 +300,9 @@ function GitHubRepos() {
               </div>
             )}
 
-            <motion.div
-              className="text-center text-gray-400 text-sm"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
+            <div className="text-center text-gray-400 text-sm">
               Showing {filteredRepos.length} of {repos.length} repositories
-            </motion.div>
+            </div>
           </>
         )}
       </div>

@@ -1,15 +1,54 @@
-import { motion } from 'framer-motion'
+import { useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActivate, onOpen }) {
+  const cardRef = useRef(null)
+  const imgRef = useRef(null)
+  const revealed = useRef(false)
+
+  useEffect(() => {
+    if (revealed.current || !cardRef.current) return
+    revealed.current = true
+    gsap.fromTo(
+      cardRef.current,
+      { opacity: 0, y: 16, scale: 0.96 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: cardRef.current, start: 'top 85%', once: true },
+      }
+    )
+  }, [])
+
+  useEffect(() => {
+    if (!cardRef.current) return
+    gsap.to(cardRef.current, {
+      scale: active ? 1.04 : 1,
+      y: active ? -8 : 0,
+      duration: 0.35,
+      ease: 'power2.out',
+    })
+  }, [active])
+
+  useEffect(() => {
+    if (!imgRef.current) return
+    gsap.to(imgRef.current, {
+      scale: active ? 1.04 : 1,
+      duration: 0.5,
+      ease: 'power2.out',
+    })
+  }, [active])
+
   return (
-    <motion.div
-      className="relative w-64 h-80 md:w-72 md:h-96 cursor-pointer"
-      initial={{ opacity: 0, y: 16, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      animate={active ? { scale: 1.04, y: -8 } : { scale: 1, y: 0 }}
-      whileHover={{ scale: 1.05, y: -6 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-      viewport={{ once: true, amount: 0.4 }}
+    <div
+      ref={cardRef}
+      className="relative w-64 h-80 md:w-72 md:h-96 cursor-pointer opacity-0 transition-transform duration-200 hover:scale-105 hover:-translate-y-1.5"
       style={{ willChange: 'transform' }}
       onMouseEnter={onActivate}
       onClick={onOpen || onActivate}
@@ -28,12 +67,11 @@ function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActi
         }`}
       >
         <div className="h-3/5 overflow-hidden">
-          <motion.img
+          <img
+            ref={imgRef}
             src={src}
             alt={alt}
             className="w-full h-full object-cover"
-            animate={active ? { scale: 1.04 } : { scale: 1 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
           />
         </div>
 
@@ -61,7 +99,7 @@ function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActi
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

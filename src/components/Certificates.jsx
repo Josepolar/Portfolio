@@ -1,5 +1,9 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiAward, FiExternalLink, FiCalendar, FiHash } from 'react-icons/fi'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const certificates = [
   {
@@ -36,24 +40,14 @@ const certificates = [
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
-}
+const containerVariants = null // removed — GSAP handles animations
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
-}
+const cardVariants = null // removed — GSAP handles animations
 
 function CertCard({ cert }) {
   return (
-    <motion.div
-      variants={cardVariants}
-      className="glass-card p-0 overflow-hidden group relative"
+    <div
+      className="cert-card glass-card p-0 overflow-hidden group relative opacity-0"
     >
       {/* Top accent bar */}
       <div className="h-1 w-full bg-gradient-to-r from-accent-teal via-accent-amber to-accent-teal" />
@@ -80,17 +74,15 @@ function CertCard({ cert }) {
           </div>
 
           {/* Verify link */}
-          <motion.a
+          <a
             href={cert.verifyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-shrink-0 flex items-center gap-1.5 text-xs font-code font-semibold text-accent-teal border border-accent-teal/25 rounded-lg px-3 py-2 hover:bg-accent-teal/10 transition-colors"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
+            className="flex-shrink-0 flex items-center gap-1.5 text-xs font-code font-semibold text-accent-teal border border-accent-teal/25 rounded-lg px-3 py-2 hover:bg-accent-teal/10 hover:scale-[1.04] active:scale-[0.97] transition-all"
             aria-label="Verify certificate"
           >
             Verify <FiExternalLink className="w-3.5 h-3.5" />
-          </motion.a>
+          </a>
         </div>
 
         {/* Issuer */}
@@ -123,22 +115,36 @@ function CertCard({ cert }) {
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 function Certificates() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.certs-header', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: '.certs-header', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.cert-card', { opacity: 0, y: 28 }, {
+        opacity: 1, y: 0, duration: 0.55, stagger: 0.15, ease: 'power2.out',
+        scrollTrigger: { trigger: '.certs-grid', start: 'top 85%', once: true },
+      })
+      gsap.fromTo('.certs-footer', { opacity: 0 }, {
+        opacity: 1, duration: 0.5, delay: 0.4, ease: 'power2.out',
+        scrollTrigger: { trigger: '.certs-footer', start: 'top 90%', once: true },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="certificates" className="py-20 px-4">
+    <section id="certificates" className="py-20 px-4" ref={sectionRef}>
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
+        <div className="certs-header text-center mb-14 opacity-0">
           <p className="section-eyebrow justify-center">Recognition</p>
           <h2 className="text-4xl md:text-5xl font-bold font-code">
             <span className="text-accent-teal">Licenses</span> &amp; Certificates
@@ -146,29 +152,17 @@ function Certificates() {
           <p className="mt-4 text-gray-400 max-w-xl mx-auto text-base">
             Credentials earned through industry programs and academic challenges.
           </p>
-        </motion.div>
+        </div>
 
         {/* Cards grid */}
-        <motion.div
-          className="grid md:grid-cols-2 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
+        <div className="certs-grid grid md:grid-cols-2 gap-6">
           {certificates.map((cert) => (
             <CertCard key={cert.id} cert={cert} />
           ))}
-        </motion.div>
+        </div>
 
         {/* LinkedIn note */}
-        <motion.p
-          className="mt-8 text-center text-xs text-gray-500 font-code"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          viewport={{ once: true }}
-        >
+        <p className="certs-footer mt-8 text-center text-xs text-gray-500 font-code opacity-0">
           View all credentials on{' '}
           <a
             href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
@@ -178,7 +172,7 @@ function Certificates() {
           >
             LinkedIn ↗
           </a>
-        </motion.p>
+        </p>
       </div>
     </section>
   )

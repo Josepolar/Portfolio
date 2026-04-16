@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
 
 function EncryptedText({ text = 'Jose Bernard Fernandez', speed = 50 }) {
   const [displayText, setDisplayText] = useState('')
   const [isDecrypted, setIsDecrypted] = useState(false)
+  const spanRef = useRef(null)
 
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%'
+
+  useEffect(() => {
+    if (spanRef.current) {
+      gsap.fromTo(spanRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 })
+    }
+  }, [])
 
   useEffect(() => {
     if (isDecrypted) {
@@ -39,15 +46,13 @@ function EncryptedText({ text = 'Jose Bernard Fernandez', speed = 50 }) {
   }, [isDecrypted, text, speed])
 
   return (
-    <motion.span
-      className="font-code text-accent-teal cursor-pointer hover:text-accent-amber transition-colors"
+    <span
+      ref={spanRef}
+      className="font-code text-accent-teal cursor-pointer hover:text-accent-amber transition-colors opacity-0"
       onClick={() => setIsDecrypted(!isDecrypted)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
     >
       {displayText}
-    </motion.span>
+    </span>
   )
 }
 
