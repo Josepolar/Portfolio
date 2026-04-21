@@ -3,6 +3,9 @@ Visit https://josepolardev.vercel.app/
 
 A world-class, GitHub-connected software developer portfolio built with React, Vite, Tailwind CSS, and Framer Motion. This is a living developer identity showcasing full-stack expertise, featuring live GitHub integration, animated sections, and a professional contact system.
 
+<img width="1836" height="932" alt="image" src="https://github.com/user-attachments/assets/c70b6259-959f-4ce4-aca6-cb29e16da1de" />
+
+
 ## ✨ Features
 
 - **Dynamic GitHub Integration**: Real-time repository fetching with filtering and search
