@@ -20,12 +20,12 @@ function FeaturedProjects({ theme = 'dark' }) {
   }, [])
 
   return (
-    <section id="featured" className="py-20 px-4" ref={sectionRef}>
-      <div className="max-w-6xl mx-auto">
-        <div className="featured-header text-center mb-16 opacity-0">
-          <p className="section-eyebrow justify-center">Open source</p>
-          <h2 className="text-4xl md:text-5xl font-bold font-code">
-            <span className="text-accent-teal">GitHub</span> Contributions
+    <section id="featured" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 relative" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto">
+        <div className="featured-header text-left mb-16 md:mb-20 opacity-0">
+          <p className="section-eyebrow justify-start">Open source</p>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] font-bold font-display uppercase tracking-tighter leading-[1.0] md:leading-[0.9]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">GitHub</span> <br className="hidden md:block" /> Activity.
           </h2>
         </div>
 

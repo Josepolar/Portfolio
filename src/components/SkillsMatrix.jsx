@@ -11,32 +11,32 @@ function SkillsMatrix() {
     {
       category: 'Frontend',
       skills: ['HTML5', 'CSS3', 'Tailwind CSS', 'JavaScript', 'React', 'Flutter'],
-      color: 'accent-teal',
+      color: 'accent-primary',
     },
     {
       category: 'Backend',
       skills: ['PHP', 'Laravel', 'REST APIs', 'Sanctum Auth', 'Database Design', 'Performance Optimization'],
-      color: 'accent-amber',
+      color: 'accent-secondary',
     },
     {
       category: 'Database',
       skills: ['MySQL', 'Query Optimization', 'Database Design', 'Data Modeling'],
-      color: 'accent-teal',
+      color: 'accent-primary',
     },
     {
       category: 'Tools & DevOps',
       skills: ['Git', 'GitHub', 'Postman', 'VS Code', 'Figma', 'Vercel'],
-      color: 'accent-amber',
+      color: 'accent-secondary',
     },
     {
       category: 'AI & Research',
       skills: ['IoT Integration', 'System Design', 'Python Basics', 'Machine Learning Concepts'],
-      color: 'accent-teal',
+      color: 'accent-primary',
     },
     {
       category: 'Soft Skills',
       skills: ['Problem Solving', 'Team Collaboration', 'Technical Writing', 'Project Management'],
-      color: 'accent-amber',
+      color: 'accent-secondary',
     },
   ]
 
@@ -66,8 +66,8 @@ function SkillsMatrix() {
       <div className="max-w-6xl mx-auto">
         <div className="skills-header text-center mb-16 opacity-0">
           <p className="section-eyebrow justify-center">What I work with</p>
-          <h2 className="text-4xl md:text-5xl font-bold font-code">
-            <span className="text-accent-teal">Skills</span> &amp; Expertise
+          <h2 className="text-4xl md:text-5xl font-bold font-display">
+            <span className="text-accent-primary">Skills</span> &amp; Expertise
           </h2>
         </div>
 
@@ -77,7 +77,7 @@ function SkillsMatrix() {
               key={groupIndex}
               className="skill-card glass-card p-6 opacity-0"
             >
-              <h3 className={`text-xl font-bold ${group.color === 'accent-teal' ? 'text-accent-teal' : 'text-accent-amber'} mb-4`}>
+              <h3 className={`text-xl font-bold ${group.color === 'accent-primary' ? 'text-accent-primary' : 'text-accent-secondary'} mb-4`}>
                 {group.category}
               </h3>
 
@@ -97,21 +97,21 @@ function SkillsMatrix() {
 
         {/* Tech Stack Overview */}
         <div className="skills-overview mt-16 glass-card p-8 text-center opacity-0">
-          <h3 className="text-2xl font-bold text-accent-teal mb-4">Current Tech Stack</h3>
+          <h3 className="text-2xl font-bold text-accent-primary mb-4">Current Tech Stack</h3>
           <p className="text-gray-300 mb-6">
             Building modern applications with React, Laravel, Flutter, and Tailwind CSS
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <span className="font-code text-accent-teal bg-accent-teal/10 px-4 py-2 rounded-lg">
+            <span className="font-display text-accent-primary bg-accent-primary/10 px-4 py-2 rounded-lg">
               React 18+
             </span>
-            <span className="font-code text-accent-amber bg-accent-amber/10 px-4 py-2 rounded-lg">
+            <span className="font-display text-accent-secondary bg-accent-secondary/10 px-4 py-2 rounded-lg">
               Laravel 10+
             </span>
-            <span className="font-code text-accent-teal bg-accent-teal/10 px-4 py-2 rounded-lg">
+            <span className="font-display text-accent-primary bg-accent-primary/10 px-4 py-2 rounded-lg">
               Tailwind CSS
             </span>
-            <span className="font-code text-accent-amber bg-accent-amber/10 px-4 py-2 rounded-lg">
+            <span className="font-display text-accent-secondary bg-accent-secondary/10 px-4 py-2 rounded-lg">
               Flutter
             </span>
           </div>

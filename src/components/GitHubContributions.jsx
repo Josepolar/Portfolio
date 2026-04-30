@@ -94,7 +94,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
   if (loading) {
     return (
       <div className="glass-card p-8 text-center">
-        <p className="text-slate_mist">Loading contributions...</p>
+        <p className="text-accent-secondary">Loading contributions...</p>
       </div>
     )
   }
@@ -102,7 +102,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
   if (error) {
     return (
       <div className="glass-card p-8 text-center">
-        <p className="text-accent-amber">{error}</p>
+        <p className="text-accent-secondary">{error}</p>
       </div>
     )
   }
@@ -110,15 +110,15 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
   return (
     <div className="glass-card p-6 md:p-8">
       <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
-        <p className="text-sm text-slate_mist">
-          <span className="font-semibold text-accent-teal">
+        <p className="text-sm text-accent-secondary">
+          <span className="font-semibold text-accent-primary">
             {typeof total === 'number' ? total : '—'}
           </span>{' '}
           contributions in the last year
         </p>
 
         <a
-          className="text-xs font-code text-accent-teal hover:underline"
+          className="text-xs font-display text-accent-primary hover:underline"
           href={`https://github.com/${username}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -135,7 +135,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
               const label = monthLabels.find((m) => m.weekIndex === i)?.label
               return (
                 <div key={i} className="w-[12px]">
-                  {label ? <span className="text-[10px] text-slate_mist">{label}</span> : null}
+                  {label ? <span className="text-[10px] text-accent-secondary">{label}</span> : null}
                 </div>
               )
             })}
@@ -145,7 +145,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
             {/* Weekday labels (Mon/Wed/Fri like GitHub) */}
             <div className="w-10 pr-2">
               {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((d, idx) => (
-                <div key={idx} className="h-[12px] mb-[3px] text-[10px] text-slate_mist">
+                <div key={idx} className="h-[12px] mb-[3px] text-[10px] text-accent-secondary">
                   {d}
                 </div>
               ))}
@@ -167,9 +167,9 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
                       }}
                     >
                       <div className="pointer-events-none absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="px-3 py-2 rounded-md bg-dark-secondary/95 border border-accent-teal/20 text-[11px] text-porcelain whitespace-nowrap shadow-lg">
+                        <div className="px-3 py-2 rounded-md bg-dark-secondary/95 border border-accent-primary/20 text-[11px] text-porcelain whitespace-nowrap shadow-lg">
                           <span className="font-semibold">{day.count}</span> contributions
-                          <span className="text-slate_mist"> • {fmtDate(day.date)}</span>
+                          <span className="text-accent-secondary"> • {fmtDate(day.date)}</span>
                         </div>
                       </div>
                     </div>
@@ -181,7 +181,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
 
           {/* Legend */}
           <div className="flex items-center justify-end gap-2 mt-4">
-            <span className="text-[10px] text-slate_mist">Less</span>
+            <span className="text-[10px] text-accent-secondary">Less</span>
             {colors.map((c, i) => (
               <span
                 key={i}
@@ -194,7 +194,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
                 }}
               />
             ))}
-            <span className="text-[10px] text-slate_mist">More</span>
+            <span className="text-[10px] text-accent-secondary">More</span>
           </div>
         </div>
       </div>

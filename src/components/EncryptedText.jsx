@@ -48,7 +48,7 @@ function EncryptedText({ text = 'Jose Bernard Fernandez', speed = 50 }) {
   return (
     <span
       ref={spanRef}
-      className="font-code text-accent-teal cursor-pointer hover:text-accent-amber transition-colors opacity-0"
+      className="font-display text-accent-primary cursor-pointer hover:text-accent-secondary transition-colors opacity-0"
       onClick={() => setIsDecrypted(!isDecrypted)}
     >
       {displayText}

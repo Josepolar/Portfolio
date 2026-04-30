@@ -48,14 +48,14 @@ export default function DitherBackground({
     if (theme === 'light') {
       return {
         a: hexToRgb('#e0e1dd'), // porcelain
-        b: hexToRgb('#b6bcc5'), // mid tint between slate_mist & porcelain
-        c: hexToRgb('#415a77'), // steel_blue
+        b: hexToRgb('#b6bcc5'), // mid tint between accent-secondary & porcelain
+        c: hexToRgb('#415a77'), // accent-primary
       }
     }
     return {
       a: hexToRgb('#0d1b2a'), // abyss
       b: hexToRgb('#1b263b'), // deep_slate
-      c: hexToRgb('#778da9'), // slate_mist
+      c: hexToRgb('#778da9'), // accent-secondary
     }
   }, [theme])
 

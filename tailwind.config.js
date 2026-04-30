@@ -7,28 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // ── Fixed dark palette ────────────────────────────────
-        'dark-bg':        '#07091e',
-        'dark-secondary': '#0b1229',
-        abyss:            '#07091e',
-        deep_slate:       '#0b1229',
+        // ── Premium Dark Palette ────────────────────────────────
+        'dark-bg':        '#050505',
+        'dark-secondary': '#0f0f11',
+        abyss:            '#000000',
+        deep_slate:       '#111111',
 
-        // ── Fixed light palette ───────────────────────────────
-        porcelain:        '#e8eaf6',   // light text on dark bg
-        'light-bg':       '#f7f8ff',   // true light mode background
-        'light-surface':  '#eef0ff',   // light mode card surface
+        // ── Premium Light Palette ───────────────────────────────
+        porcelain:        '#f3f3f3',   // light text on dark bg
+        'light-bg':       '#ffffff',   // true light mode background
+        'light-surface':  '#f8f8f8',   // light mode card surface
 
         // ── CSS-variable-driven (switches per theme) ──────────
-        // In CSS: --accent-primary  = space-separated R G B values
-        //         --accent-secondary = space-separated R G B values
-        'accent-teal':  'rgb(var(--accent-primary)  / <alpha-value>)',
-        'accent-amber': 'rgb(var(--accent-secondary) / <alpha-value>)',
-        'steel_blue':   'rgb(var(--accent-primary)  / <alpha-value>)',
-        'slate_mist':   'rgb(var(--accent-secondary) / <alpha-value>)',
+        'accent-primary':  'rgb(var(--accent-primary)  / <alpha-value>)',
+        'accent-secondary': 'rgb(var(--accent-secondary) / <alpha-value>)',
       },
       fontFamily: {
-        'code': ['JetBrains Mono', 'monospace'],
-        'body': ['Lato', 'sans-serif'],
+        'display': ['Syne', 'sans-serif'],
+        'body': ['Inter', 'sans-serif'],
       },
       spacing: {
         'safe-top':    'max(1rem, env(safe-area-inset-top))',

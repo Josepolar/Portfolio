@@ -63,7 +63,7 @@ function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActi
 
       <div
         className={`relative h-full rounded-2xl bg-dark-secondary/90 overflow-hidden shadow-xl border transition-colors ${
-          active ? 'border-accent-teal/80' : 'border-accent-teal/20'
+          active ? 'border-accent-primary/80' : 'border-accent-primary/20'
         }`}
       >
         <div className="h-3/5 overflow-hidden">
@@ -77,7 +77,7 @@ function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActi
 
         <div className="h-2/5 px-4 py-3 flex flex-col justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-accent-teal/70 mb-1">
+            <p className="text-xs uppercase tracking-[0.18em] text-accent-primary/70 mb-1">
               PROFILE
             </p>
             <h3 className="text-base font-semibold text-gray-100 leading-snug line-clamp-2">
@@ -90,12 +90,12 @@ function ProfileCard({ src, alt, badge, subtitle, detail, active = false, onActi
 
           <div className="flex items-center justify-between">
             {badge && (
-              <div className="inline-flex items-center gap-2 rounded-full bg-accent-teal/10 border border-accent-teal/40 px-3 py-1 text-xs font-code text-accent-teal">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent-teal animate-pulse" />
+              <div className="inline-flex items-center gap-2 rounded-full bg-accent-primary/10 border border-accent-primary/40 px-3 py-1 text-xs font-display text-accent-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-primary animate-pulse" />
                 <span>{badge}</span>
               </div>
             )}
-            <span className="text-[10px] text-gray-500 ml-auto font-code">tap to expand →</span>
+            <span className="text-[10px] text-gray-500 ml-auto font-display">tap to expand →</span>
           </div>
         </div>
       </div>

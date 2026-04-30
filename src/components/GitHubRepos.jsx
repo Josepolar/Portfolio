@@ -16,7 +16,7 @@ function GitHubRepos() {
   const sectionRef = useRef(null)
   const gridRef = useRef(null)
 
-  const languages = ['All', 'PHP', 'JavaScript', 'Dart', 'Python', 'HTML']
+  const languages = ['All', 'PHP', 'JavaScript', 'Typescript']
 
   const fetchRepos = async () => {
     try {
@@ -152,18 +152,14 @@ function GitHubRepos() {
   }, [filteredRepos])
 
   return (
-    <section id="github" className="py-20 px-4 bg-dark-secondary/30" ref={sectionRef}>
-      <div className="max-w-6xl mx-auto">
-        <div className="repos-header text-center mb-4 opacity-0">
-          <p className="section-eyebrow justify-center">Source code</p>
-          <h2 className="text-4xl md:text-5xl font-bold font-code">
-            <span className="text-accent-teal">GitHub</span> Repositories
+    <section id="github" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 bg-dark-secondary/10" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto">
+        <div className="repos-header text-left mb-16 opacity-0">
+          <p className="section-eyebrow justify-start">Archive</p>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] font-bold font-display uppercase tracking-tighter leading-[1.0] md:leading-[0.9]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Selected</span> <br className="hidden md:block" /> Works.
           </h2>
         </div>
-
-        <p className="text-center text-gray-400 mb-8">
-          Explore my open-source projects and contributions
-        </p>
 
         {/* Filters and Search */}
         <div className="repos-filters glass-card p-6 mb-8 opacity-0">
@@ -174,7 +170,7 @@ function GitHubRepos() {
               placeholder="Search repositories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-3 bg-dark-secondary/50 rounded-lg border border-accent-teal/20 text-porcelain placeholder-slate_mist/50 focus:outline-none focus:border-accent-teal transition-colors"
+              className="w-full px-4 py-3 bg-dark-secondary/50 rounded-lg border border-accent-primary/20 text-porcelain placeholder-accent-secondary/50 focus:outline-none focus:border-accent-primary transition-colors"
             />
           </div>
 
@@ -190,11 +186,10 @@ function GitHubRepos() {
                   <button
                     key={lang}
                     onClick={() => setSelectedLanguage(lang)}
-                    className={`px-4 py-2 rounded-full transition-all text-sm font-semibold hover:scale-105 active:scale-95 ${
-                      selectedLanguage === lang
-                        ? 'bg-accent-teal text-dark-bg'
-                        : 'bg-accent-teal/10 text-accent-teal border border-accent-teal/20 hover:bg-accent-teal/20'
-                    }`}
+                    className={`px-4 py-2 rounded-full transition-all text-sm font-semibold hover:scale-105 active:scale-95 ${selectedLanguage === lang
+                        ? 'bg-accent-primary text-dark-bg'
+                        : 'bg-accent-primary/10 text-accent-primary border border-accent-primary/20 hover:bg-accent-primary/20'
+                      }`}
                   >
                     {lang}
                   </button>
@@ -210,7 +205,7 @@ function GitHubRepos() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-2 bg-dark-secondary/50 rounded-lg border border-accent-teal/20 text-porcelain focus:outline-none focus:border-accent-teal"
+                className="w-full px-4 py-2 bg-dark-secondary/50 rounded-lg border border-accent-primary/20 text-porcelain focus:outline-none focus:border-accent-primary"
               >
                 <option value="recent">Most Recent</option>
                 <option value="stars">Most Stars</option>
@@ -233,7 +228,7 @@ function GitHubRepos() {
           <>
             <div
               ref={gridRef}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+              className="flex flex-col mb-16 border-t border-white/5"
             >
               {filteredRepos.map((repo) => (
                 <a
@@ -241,55 +236,27 @@ function GitHubRepos() {
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="repo-card glass-card p-6 hover:border-accent-teal hover:-translate-y-1 transition-all group opacity-0"
+                  className="repo-card group relative py-10 md:py-16 border-b border-white/5 hover:border-accent-primary/50 transition-colors opacity-0 block w-full overflow-hidden"
                 >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-bold text-accent-teal group-hover:text-accent-amber transition-colors">
+                  <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 md:gap-8 relative z-10">
+                    <h3 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold font-display uppercase tracking-tighter text-porcelain group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent-primary group-hover:to-accent-secondary transition-all duration-300">
                       {repo.name}
                     </h3>
-                    {repo.private ? (
-                      <span className="text-xs bg-accent-amber/20 text-accent-amber px-2 py-1 rounded">
-                        Private
-                      </span>
-                    ) : (
-                      <span className="text-xs bg-accent-teal/20 text-accent-teal px-2 py-1 rounded">
-                        Public
-                      </span>
-                    )}
+                    <div className="flex flex-wrap items-center gap-4 md:gap-8 text-gray-500 font-display uppercase tracking-widest text-xs sm:text-sm">
+                      {repo.language && <span className="group-hover:text-accent-primary transition-colors">{repo.language}</span>}
+                      <span>⭐ {repo.stargazers_count}</span>
+                      <span className="hidden sm:inline-block">{getRelativeTime(repo.updated_at)}</span>
+                    </div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                    {repo.description || 'No description provided'}
-                  </p>
+                  {repo.description && (
+                    <p className="mt-6 md:mt-8 text-gray-400 max-w-3xl relative z-10 text-base md:text-xl font-display tracking-wide leading-relaxed group-hover:text-porcelain transition-colors duration-300">
+                      {repo.description}
+                    </p>
+                  )}
 
-                  {/* Language and stats */}
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                    {repo.language && (
-                      <div className="flex items-center gap-1">
-                        <span className={`w-2 h-2 rounded-full ${getLanguageColor(repo.language)}`}></span>
-                        <span className={getLanguageColor(repo.language)}>
-                          {repo.language}
-                        </span>
-                      </div>
-                    )}
-                    <span>Updated {getRelativeTime(repo.updated_at)}</span>
-                  </div>
-
-                  {/* Stats and footer */}
-                  <div className="flex gap-4 pt-4 border-t border-accent-teal/10">
-                    {repo.stargazers_count > 0 && (
-                      <span className="text-sm text-gray-400">
-                        ⭐ {repo.stargazers_count}
-                      </span>
-                    )}
-                    {repo.forks_count > 0 && (
-                      <span className="text-sm text-gray-400">
-                        🍴 {repo.forks_count}
-                      </span>
-                    )}
-                  </div>
+                  {/* Hover background effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/5 to-transparent scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-out z-0"></div>
                 </a>
               ))}
             </div>

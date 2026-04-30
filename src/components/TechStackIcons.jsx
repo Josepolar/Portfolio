@@ -39,12 +39,12 @@ export default function TechStackIcons({ className = '' }) {
               key={`${label}-${index}`}
               className="group relative mx-1 transition-transform duration-200 hover:-translate-y-1 hover:scale-105"
             >
-              <div className="glass-card !p-3 flex items-center justify-center border border-accent-teal/10 hover:border-accent-teal/40 transition-colors bg-dark-secondary/60">
-                <Icon className="w-6 h-6 text-gray-200 group-hover:text-accent-teal transition-colors" />
+              <div className="glass-card !p-3 flex items-center justify-center border border-accent-primary/10 hover:border-accent-primary/40 transition-colors bg-dark-secondary/60">
+                <Icon className="w-6 h-6 text-gray-200 group-hover:text-accent-primary transition-colors" />
               </div>
 
               <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="px-3 py-1 rounded-md bg-dark-secondary/90 border border-accent-teal/20 text-xs font-code text-gray-200 whitespace-nowrap">
+                <div className="px-3 py-1 rounded-md bg-dark-secondary/90 border border-accent-primary/20 text-xs font-display text-gray-200 whitespace-nowrap">
                   {label}
                 </div>
               </div>

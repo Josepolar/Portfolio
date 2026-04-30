@@ -185,8 +185,8 @@ function Contact() {
       <div className="max-w-6xl mx-auto">
         <div className="contact-header text-center mb-16 opacity-0">
           <p className="section-eyebrow justify-center">Get in touch</p>
-          <h2 className="text-4xl md:text-5xl font-bold font-code">
-            Let's <span className="text-accent-teal">Connect</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-display">
+            Let's <span className="text-accent-primary">Connect</span>
           </h2>
         </div>
 
@@ -204,12 +204,12 @@ function Contact() {
                 href={link.href}
                 target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="contact-link-item glass-card p-4 flex items-center gap-4 group hover:border-accent-teal hover:translate-x-1 transition-all opacity-0"
+                className="contact-link-item glass-card p-4 flex items-center gap-4 group hover:border-accent-primary hover:translate-x-1 transition-all opacity-0"
               >
                 <span className="text-3xl">{link.icon}</span>
                 <div>
                   <p className="text-sm text-gray-400">{link.label}</p>
-                  <p className="text-accent-teal font-semibold group-hover:text-accent-amber transition-colors">
+                  <p className="text-accent-primary font-semibold group-hover:text-accent-secondary transition-colors">
                     {link.value}
                   </p>
                 </div>
@@ -217,10 +217,10 @@ function Contact() {
             ))}
 
             {/* Social links */}
-            <div className="contact-social flex gap-4 mt-8 pt-8 border-t border-accent-teal/20 opacity-0">
+            <div className="contact-social flex gap-4 mt-8 pt-8 border-t border-accent-primary/20 opacity-0">
               <a
                 href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`}
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -228,7 +228,7 @@ function Contact() {
               </a>
               <a
                 href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -236,7 +236,7 @@ function Contact() {
               </a>
               <a
                 href="#"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-teal hover:scale-110 hover:rotate-[5deg] transition-all"
+                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
               >
                 🐦
               </a>
@@ -267,25 +267,25 @@ function Contact() {
                         aria-label={`Step ${s.n}: ${s.label}`}
                       >
                         <span
-                          className={`w-9 h-9 rounded-full flex items-center justify-center font-code text-sm border transition-colors ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center font-display text-sm border transition-colors ${
                             done
-                              ? 'bg-accent-teal text-dark-bg border-accent-teal'
+                              ? 'bg-accent-primary text-dark-bg border-accent-primary'
                               : active
-                              ? 'bg-accent-teal/10 text-accent-teal border-accent-teal/50'
-                              : 'bg-dark-bg/30 text-slate_mist border-accent-teal/15'
+                              ? 'bg-accent-primary/10 text-accent-primary border-accent-primary/50'
+                              : 'bg-dark-bg/30 text-accent-secondary border-accent-primary/15'
                           }`}
                         >
                           {s.n}
                         </span>
-                        <span className={`text-sm font-semibold transition-colors ${active ? 'text-porcelain' : 'text-slate_mist'}`}>
+                        <span className={`text-sm font-semibold transition-colors ${active ? 'text-porcelain' : 'text-accent-secondary'}`}>
                           {s.label}
                         </span>
                       </button>
 
                       {idx !== arr.length - 1 && (
-                        <div className="flex-1 mx-3 h-[2px] rounded bg-accent-teal/10 overflow-hidden">
+                        <div className="flex-1 mx-3 h-[2px] rounded bg-accent-primary/10 overflow-hidden">
                           <div
-                            className="h-full bg-accent-teal transition-all duration-300"
+                            className="h-full bg-accent-primary transition-all duration-300"
                             style={{ width: step > s.n ? '100%' : '0%' }}
                           />
                         </div>
@@ -295,10 +295,10 @@ function Contact() {
                 })}
               </div>
 
-              <div className="mt-4 h-2 rounded-full bg-accent-teal/10 overflow-hidden">
+              <div className="mt-4 h-2 rounded-full bg-accent-primary/10 overflow-hidden">
                 <div
                   ref={progressRef}
-                  className="h-full bg-gradient-to-r from-accent-teal to-accent-amber"
+                  className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary"
                   style={{ width: `${(step / 3) * 100}%` }}
                 />
               </div>
@@ -308,14 +308,14 @@ function Contact() {
             <div ref={stepContentRef} key={step} className="mb-8">
               {step === 1 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">Your Name</label>
+                  <label className="block text-sm font-semibold text-accent-secondary mb-2">Your Name</label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-teal/20 text-porcelain placeholder-slate_mist/60 focus:outline-none focus:border-accent-teal transition-colors"
+                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-primary/20 text-porcelain placeholder-accent-secondary/60 focus:outline-none focus:border-accent-primary transition-colors"
                     autoComplete="name"
                   />
                 </div>
@@ -323,14 +323,14 @@ function Contact() {
 
               {step === 2 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">Your Email</label>
+                  <label className="block text-sm font-semibold text-accent-secondary mb-2">Your Email</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-teal/20 text-porcelain placeholder-slate_mist/60 focus:outline-none focus:border-accent-teal transition-colors"
+                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-primary/20 text-porcelain placeholder-accent-secondary/60 focus:outline-none focus:border-accent-primary transition-colors"
                     autoComplete="email"
                   />
                 </div>
@@ -338,21 +338,21 @@ function Contact() {
 
               {step === 3 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate_mist mb-2">Message</label>
+                  <label className="block text-sm font-semibold text-accent-secondary mb-2">Message</label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell me about your project or opportunity..."
                     rows="6"
-                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-teal/20 text-porcelain placeholder-slate_mist/60 focus:outline-none focus:border-accent-teal transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-dark-secondary/40 rounded-lg border border-accent-primary/20 text-porcelain placeholder-accent-secondary/60 focus:outline-none focus:border-accent-primary transition-colors resize-none"
                   />
 
-                  <div className="mt-5 p-4 rounded-xl border border-accent-teal/15 bg-dark-bg/25">
-                    <p className="text-xs text-slate_mist mb-2 font-code tracking-wide">Review</p>
+                  <div className="mt-5 p-4 rounded-xl border border-accent-primary/15 bg-dark-bg/25">
+                    <p className="text-xs text-accent-secondary mb-2 font-display tracking-wide">Review</p>
                     <div className="text-sm text-porcelain space-y-1">
-                      <p><span className="text-slate_mist">Name:</span> {formData.name || '—'}</p>
-                      <p><span className="text-slate_mist">Email:</span> {formData.email || '—'}</p>
+                      <p><span className="text-accent-secondary">Name:</span> {formData.name || '—'}</p>
+                      <p><span className="text-accent-secondary">Email:</span> {formData.email || '—'}</p>
                     </div>
                   </div>
                 </div>
@@ -365,7 +365,7 @@ function Contact() {
                 type="button"
                 onClick={back}
                 disabled={step === 1 || isSubmitting}
-                className="flex-1 px-6 py-3 border border-accent-teal/25 text-porcelain rounded-lg hover:bg-accent-teal/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                className="flex-1 px-6 py-3 border border-accent-primary/25 text-porcelain rounded-lg hover:bg-accent-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
               >
                 Back
               </button>
@@ -375,7 +375,7 @@ function Contact() {
                   type="button"
                   onClick={next}
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-teal to-accent-amber text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-teal/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-primary to-accent-secondary text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-primary/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>
@@ -383,7 +383,7 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !validateStep(3)}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-teal to-accent-amber text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-teal/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-primary to-accent-secondary text-dark-bg font-bold rounded-lg hover:shadow-lg hover:shadow-accent-primary/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Sending...' : emailjsReady ? 'Send Message' : 'Open Email App ↗'}
                 </button>
