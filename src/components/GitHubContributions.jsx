@@ -17,9 +17,8 @@ function toSundayStartIndex(day) {
 }
 
 const LEVEL_COLORS = {
-  // Styled to match the GitHub grid but with your Coolors palette vibe
-  dark: ['#1b263b', '#415a77', '#778da9', '#9aaac0', '#e0e1dd'],
-  light: ['#cfd2cd', '#778da9', '#5f7694', '#415a77', '#0d1b2a'],
+  dark: ['#1a2920', '#405740', '#718064', '#a4ac8b', '#d8dfbf'],
+  light: ['#d9ded7', '#a4b19d', '#718064', '#50634f', '#24382d'],
 }
 
 export default function GitHubContributions({ theme = 'dark', username = 'Josepolar' }) {
@@ -93,7 +92,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
 
   if (loading) {
     return (
-      <div className="glass-card p-8 text-center">
+      <div className="github-activity-card p-8 text-center">
         <p className="text-accent-secondary">Loading contributions...</p>
       </div>
     )
@@ -101,14 +100,14 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
 
   if (error) {
     return (
-      <div className="glass-card p-8 text-center">
+      <div className="github-activity-card p-8 text-center">
         <p className="text-accent-secondary">{error}</p>
       </div>
     )
   }
 
   return (
-    <div className="glass-card p-6 md:p-8">
+    <div className="github-activity-card p-6 md:p-8">
       <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
         <p className="text-sm text-accent-secondary">
           <span className="font-semibold text-accent-primary">
@@ -127,7 +126,7 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
         </a>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="github-activity-scroll overflow-x-auto">
         <div className="min-w-[820px]">
           {/* Month labels */}
           <div className="flex gap-[3px] ml-10 mb-2">
@@ -165,13 +164,8 @@ export default function GitHubContributions({ theme = 'dark', username = 'Josepo
                         backgroundColor: colors[Math.min(4, Math.max(0, day.level ?? 0))],
                         outline: '1px solid rgba(255,255,255,0.06)',
                       }}
+                      title={`${day.count} contributions on ${fmtDate(day.date)}`}
                     >
-                      <div className="pointer-events-none absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="px-3 py-2 rounded-md bg-dark-secondary/95 border border-accent-primary/20 text-[11px] text-porcelain whitespace-nowrap shadow-lg">
-                          <span className="font-semibold">{day.count}</span> contributions
-                          <span className="text-accent-secondary"> • {fmtDate(day.date)}</span>
-                        </div>
-                      </div>
                     </div>
                   ))}
                 </div>

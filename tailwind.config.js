@@ -23,8 +23,8 @@ export default {
         'accent-secondary': 'rgb(var(--accent-secondary) / <alpha-value>)',
       },
       fontFamily: {
-        'display': ['Syne', 'sans-serif'],
-        'body': ['Inter', 'sans-serif'],
+        'display': ['DM Serif Display', 'serif'],
+        'body': ['DM Sans', 'sans-serif'],
       },
       spacing: {
         'safe-top':    'max(1rem, env(safe-area-inset-top))',

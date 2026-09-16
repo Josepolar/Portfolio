@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jose Bernard R. Fernandez - CV</title>
+  <style>
+    :root { color: #18201b; background: #e9e7df; font-family: Georgia, 'Times New Roman', serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; }
+    main { max-width: 850px; margin: 0 auto; padding: 48px 58px; background: #fff; box-shadow: 0 16px 50px rgb(24 32 27 / 0.14); }
+    header { border-bottom: 2px solid #718064; padding-bottom: 18px; }
+    h1 { margin: 0 0 8px; font-size: 2.3rem; letter-spacing: .04em; }
+    .contact { margin: 0; color: #586258; font: 0.78rem Arial, sans-serif; line-height: 1.7; }
+    h2 { margin: 24px 0 8px; color: #40513f; font: 700 .78rem Arial, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+    p, li { font-size: .89rem; line-height: 1.5; }
+    .summary { margin: 0; }
+    .skills { display: grid; grid-template-columns: 145px 1fr; gap: 4px 14px; margin: 0; font: .84rem Arial, sans-serif; line-height: 1.45; }
+    .skills dt { color: #40513f; font-weight: 700; }
+    .skills dd { margin: 0; }
+    .role { margin: 15px 0 0; break-inside: avoid; }
+    .role-heading { display: flex; justify-content: space-between; gap: 16px; font-weight: 700; }
+    .role-meta { margin: 2px 0 4px; color: #586258; font: .78rem Arial, sans-serif; }
+    ul { margin: 5px 0 0; padding-left: 20px; }
+    .project { margin: 10px 0; break-inside: avoid; }
+    .project strong { color: #40513f; }
+    .project p { display: inline; margin: 0; }
+    .compact { margin-bottom: 0; }
+    @media (max-width: 650px) { body { padding: 0; } main { padding: 30px 24px; } h1 { font-size: 1.8rem; } .skills { grid-template-columns: 1fr; gap: 0; } .skills dt { margin-top: 7px; } .role-heading { display: block; } }
+    @media print { body { padding: 0; background: #fff; } main { max-width: none; padding: 0; box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>JOSE BERNARD R. FERNANDEZ</h1>
+      <p class="contact">josebernardfernandez@gmail.com | linkedin.com/in/jose-fernandez-7058b12a7 | github.com/Josepolar | Antipolo, Philippines</p>
+    </header>
+
+    <h2>Summary</h2>
+    <p class="summary">Full-stack software engineer graduating August 2026 (BSIT) with hands-on experience shipping production features in fintech and building complete commercial platforms end-to-end. Comfortable across the stack with Next.js/React/TypeScript on the frontend and Node.js, PostgreSQL, and Prisma on the backend, including payment integrations, RBAC, and cloud storage. Strong foundation in NLP/AI model evaluation from prior applied ML work.</p>
+
+    <h2>Technical Skills</h2>
+    <dl class="skills">
+      <dt>Languages</dt><dd>JavaScript, TypeScript, PHP, HTML5, CSS3, SQL</dd>
+      <dt>Frameworks</dt><dd>Next.js, React.js, Node.js, TanStack Start, Tailwind CSS, Framer Motion, Vite, NextAuth.js</dd>
+      <dt>Data</dt><dd>PostgreSQL, MySQL, Prisma ORM</dd>
+      <dt>Cloud & Tools</dt><dd>AWS S3, Vercel, Git/GitHub, Stripe, Xendit, PayMongo, Semaphore SMS, HTML Canvas, Web Share API</dd>
+      <dt>Concepts</dt><dd>Full-Stack Development, REST APIs, MVC Architecture, RBAC, System Design basics, AI/NLP</dd>
+    </dl>
+
+    <h2>Experience</h2>
+    <section class="role"><div class="role-heading"><span>Freelance Full-Stack Web Developer</span><span>Apr 2026 - May 2026</span></div><div class="role-meta">Freelance - Remote</div><ul><li>Architected and shipped a commissioned automotive super-app unifying firmware portal, e-commerce, and service booking into one platform.</li><li>Built the stack end-to-end with Next.js 15, React 19, TypeScript, PostgreSQL/Prisma ORM, and AWS S3.</li><li>Integrated Xendit and GCash/Maya payment gateways and implemented RBAC dashboards for multi-tier permissions.</li></ul></section>
+    <section class="role"><div class="role-heading"><span>Software Developer</span><span>Feb 2026 - May 2026</span></div><div class="role-meta">Pisopay.com Inc. - Internship - Makati, Philippines</div><ul><li>Contributed to real-world fintech software development in a professional engineering team using JavaScript frameworks and Next.js.</li><li>Worked within an existing production codebase, gaining experience with team workflows and code review in a regulated fintech environment.</li></ul></section>
+    <section class="role"><div class="role-heading"><span>Web Developer and Software Developer</span><span>Sep 2025 - Dec 2025</span></div><div class="role-meta">Freelance - Part-time</div><ul><li>Developed and maintained public-facing and internal web systems for a steel fabrication company, handling feature requests and bug fixes.</li></ul></section>
+    <section class="role"><div class="role-heading"><span>Prompter Assistant - Natural Language Processing</span><span>May 2024 - Sep 2025</span></div><div class="role-meta">Freelance - Remote - Singapore-based AI company</div><ul><li>Analyzed and evaluated AI model behavior, applying NLP expertise to identify and improve model response quality at scale.</li></ul></section>
+
+    <h2>Projects</h2>
+    <div class="project"><strong>ADR Autoparts Trading</strong> - Next.js 15, React 19, TypeScript, PostgreSQL, Prisma, AWS S3, Xendit, Tailwind CSS. <p>Full-stack automotive super-app with firmware portal, e-commerce, service booking, real-time analytics, and integrated payment gateways.</p></div>
+    <div class="project"><strong>SnapFrame</strong> - TypeScript, React 19, TanStack Start, Tailwind CSS, HTML Canvas. <p>Korean-style digital photobooth app with live camera capture, real-time filters, customizable layouts, 300 DPI PNG export, local gallery, and Web Share API integration.</p></div>
+    <div class="project"><strong>Developer Portfolio</strong> - React 18, Vite, Tailwind CSS, Framer Motion, EmailJS. <p>Animated, GitHub-connected portfolio focused on thoughtful interaction and accessible presentation.</p></div>
+
+    <h2>Education</h2>
+    <p><strong>Bachelor of Science in Information Technology (BSIT)</strong> - Expected Aug 2026<br>Our Lady of Fatima University - Antipolo Campus, Antipolo, Philippines</p>
+
+    <h2>Certifications</h2>
+    <p class="compact">IT Specialist - Python, Certiport (Pearson VUE), 2026<br>Cybersecurity for Business - Fundamental Edition, EC-Council, 2023<br>SQL Injection Attacks, EC-Council, 2023</p>
+  </main>
+</body>
+</html>

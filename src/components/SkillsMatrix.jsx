@@ -9,34 +9,29 @@ function SkillsMatrix() {
 
   const skillGroups = [
     {
-      category: 'Frontend',
-      skills: ['HTML5', 'CSS3', 'Tailwind CSS', 'JavaScript', 'React', 'Flutter'],
+      category: 'Languages',
+      skills: ['JavaScript', 'TypeScript', 'PHP', 'HTML5', 'CSS3', 'SQL'],
       color: 'accent-primary',
     },
     {
-      category: 'Backend',
-      skills: ['PHP', 'Laravel', 'REST APIs', 'Sanctum Auth', 'Database Design', 'Performance Optimization'],
+      category: 'Frameworks & Libraries',
+      skills: ['Next.js', 'React.js', 'Node.js', 'TanStack Start', 'Tailwind CSS', 'Framer Motion', 'Vite', 'NextAuth.js'],
       color: 'accent-secondary',
     },
     {
-      category: 'Database',
-      skills: ['MySQL', 'Query Optimization', 'Database Design', 'Data Modeling'],
+      category: 'Databases & ORM',
+      skills: ['PostgreSQL', 'MySQL', 'Prisma ORM'],
       color: 'accent-primary',
     },
     {
-      category: 'Tools & DevOps',
-      skills: ['Git', 'GitHub', 'Postman', 'VS Code', 'Figma', 'Vercel'],
+      category: 'Cloud & Tools',
+      skills: ['AWS S3', 'Vercel', 'Git/GitHub', 'Stripe', 'Xendit', 'PayMongo', 'Semaphore SMS', 'HTML Canvas', 'Web Share API'],
       color: 'accent-secondary',
     },
     {
-      category: 'AI & Research',
-      skills: ['IoT Integration', 'System Design', 'Python Basics', 'Machine Learning Concepts'],
+      category: 'Concepts',
+      skills: ['Full-Stack Development', 'REST APIs', 'MVC Architecture', 'RBAC', 'System Design Basics', 'AI/NLP'],
       color: 'accent-primary',
-    },
-    {
-      category: 'Soft Skills',
-      skills: ['Problem Solving', 'Team Collaboration', 'Technical Writing', 'Project Management'],
-      color: 'accent-secondary',
     },
   ]
 
@@ -99,20 +94,20 @@ function SkillsMatrix() {
         <div className="skills-overview mt-16 glass-card p-8 text-center opacity-0">
           <h3 className="text-2xl font-bold text-accent-primary mb-4">Current Tech Stack</h3>
           <p className="text-gray-300 mb-6">
-            Building modern applications with React, Laravel, Flutter, and Tailwind CSS
+            Building production-ready products with Next.js, React, TypeScript, Node.js, and PostgreSQL
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <span className="font-display text-accent-primary bg-accent-primary/10 px-4 py-2 rounded-lg">
-              React 18+
+              Next.js
             </span>
             <span className="font-display text-accent-secondary bg-accent-secondary/10 px-4 py-2 rounded-lg">
-              Laravel 10+
+              React 19
             </span>
             <span className="font-display text-accent-primary bg-accent-primary/10 px-4 py-2 rounded-lg">
               Tailwind CSS
             </span>
             <span className="font-display text-accent-secondary bg-accent-secondary/10 px-4 py-2 rounded-lg">
-              Flutter
+              TypeScript
             </span>
           </div>
         </div>

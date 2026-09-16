@@ -38,6 +38,18 @@ const certificates = [
       'https://certificates.aisingapore.org/certificate-verification/36D4FFE-36D4F9F-3500469/',
     featured: false,
   },
+  {
+    id: 3,
+    title: 'IT Specialist - Python',
+    issuer: 'Certiport',
+    issuerFull: 'A Pearson VUE Business',
+    date: 'July 2026 - Expires July 2031',
+    credentialId: '592fc0f4-e599-4627-aa64-07f1fda0c21d',
+    skills: ['Python'],
+    verifyUrl:
+      'https://www.credly.com/badges/592fc0f4-e599-4627-aa64-07f1fda0c21d/public_url',
+    featured: false,
+  },
 ]
 
 const containerVariants = null // removed — GSAP handles animations

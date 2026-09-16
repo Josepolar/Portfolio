@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollStack, ScrollStackItem } from './ScrollStack'
+import { FiBriefcase, FiCode, FiCpu, FiBookOpen } from 'react-icons/fi'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -32,7 +33,7 @@ const timeline = [
     type: 'Freelance',
   },
   {
-    year: 'Feb 2026 – Present',
+    year: 'Feb 2026 – May 2026',
     title: 'Software Developer — Pisopay.com Inc.',
     description:
       'Internship at Pisopay Inc. working on real-world software development and financial technology systems. Developing and improving web-based applications, fixing bugs, and supporting system enhancements for smooth and secure digital transactions.',
@@ -47,22 +48,23 @@ const accentCycle = ['accent-primary', 'accent-secondary']
 
 function TimelineCard({ item, index }) {
   const accent = accentCycle[index % 2]
+  const MarkerIcon = [FiBookOpen, FiCpu, FiCode, FiBriefcase][index] || FiBriefcase
   const isIndigo = accent === 'accent-primary'
 
   return (
     <div className="max-w-3xl mx-auto w-full mb-8">
-      <div className="bg-dark-secondary rounded-2xl overflow-hidden p-0 border border-white/5 hover:border-accent-primary/30 transition-colors shadow-2xl">
+      <div className="timeline-card-surface rounded-xl overflow-hidden p-0 border hover:border-accent-primary/30 transition-colors">
         {/* Top bar */}
         <div
           className={`h-1 w-full ${isIndigo ? 'bg-gradient-to-r from-accent-primary to-accent-secondary' : 'bg-gradient-to-r from-accent-secondary to-accent-primary'}`}
         />
-        <div className="p-8 md:p-10 relative z-10 bg-dark-secondary">
+        <div className="p-8 md:p-10 relative z-10">
           {/* Year + emoji row */}
           <div className="flex items-center justify-between mb-4">
             <span className="font-display text-xs font-bold tracking-[0.18em] uppercase text-accent-secondary">
               {item.year}
             </span>
-            <span className="text-2xl">{item.emoji}</span>
+            <MarkerIcon className="h-5 w-5 text-accent-secondary" aria-hidden="true" />
           </div>
 
           <h3 className={`text-xl md:text-2xl font-bold mb-2 ${isIndigo ? 'text-accent-primary' : 'text-accent-secondary'}`}>
@@ -129,20 +131,22 @@ function Timeline() {
           <p className="mt-4 text-gray-400 text-sm">Scroll to flip through each chapter</p>
         </div>
 
-        {/* ScrollStack — cards fan in from below as you scroll */}
-        <ScrollStack
-          itemDistance={220}
-          stackPosition="14vh"
-          baseScale={0.86}
-          itemScale={0.04}
-          blurAmount={0}
-        >
-          {timeline.map((item, index) => (
-            <ScrollStackItem key={index}>
-              <TimelineCard item={item} index={index} />
-            </ScrollStackItem>
-          ))}
-        </ScrollStack>
+        {/* Desktop uses the layered deck; smaller screens keep every chapter in flow. */}
+        <div className="timeline-desktop-stack">
+          <ScrollStack
+            itemDistance={220}
+            stackPosition="14vh"
+            baseScale={0.86}
+            itemScale={0.04}
+            blurAmount={0}
+          >
+            {timeline.map((item, index) => (
+              <ScrollStackItem key={index}>
+                <TimelineCard item={item} index={index} />
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
+        </div>
 
         {/* End marker */}
         <div className="timeline-end text-center mt-8 opacity-0">

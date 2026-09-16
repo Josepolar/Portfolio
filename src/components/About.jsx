@@ -40,16 +40,10 @@ function About() {
             <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl">
               <div className="absolute inset-0 bg-accent-primary/20 mix-blend-overlay z-10"></div>
               <img 
-                src="/profile-indoor.png" 
+                src="/Jose%20Fernandez.png"
                 alt="Jose Bernard Indoor" 
                 className="about-image-img w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
-              <div className="absolute bottom-6 left-6 z-20">
-                <div className="inline-flex items-center gap-2 rounded-full bg-dark-bg/80 backdrop-blur-md border border-accent-primary/40 px-4 py-2 text-xs font-display text-accent-primary tracking-widest uppercase">
-                  <span className="h-2 w-2 rounded-full bg-accent-primary animate-pulse" />
-                  Available for freelance
-                </div>
-              </div>
             </div>
           </div>
 
@@ -63,15 +57,15 @@ function About() {
             </div>
 
             <p className="text-2xl sm:text-3xl md:text-4xl text-porcelain mb-12 leading-tight font-display tracking-tight opacity-0">
-              I am a Full-Stack Developer passionate about building scalable systems and elegant user experiences.
+              I am a full-stack software engineer building production-ready systems and thoughtful digital experiences.
             </p>
             
             <p className="text-xl text-gray-400 mb-10 leading-relaxed opacity-0">
-              With a strong foundation in Laravel, React, and Flutter, I craft solutions that bridge the gap between complex technical requirements and user needs. Most days you'll find me exploring new places, sketching systems in my head, and thinking about how tech can improve day-to-day life.
+              I work across Next.js, React, and TypeScript on the frontend, with Node.js, PostgreSQL, and Prisma on the backend. I enjoy taking a product from its first idea to a complete platform, with careful attention to architecture, usability, and the details that make complex workflows feel clear.
             </p>
 
             <p className="text-xl text-gray-400 mb-12 leading-relaxed opacity-0">
-              When I'm indoors, I'm usually deep into code, experimenting with new stacks, or polishing UI details until everything feels just right. Late nights, lo-fi beats, and a good terminal font. Currently exploring the intersection of IoT, AI, and disaster management systems.
+              My experience includes fintech product development, commercial platforms, payment integrations, cloud storage, and role-based access control. I also bring a strong foundation in NLP and AI model evaluation, where I learned to examine system behavior closely and improve the quality of the user experience.
             </p>
 
             <p className="text-accent-primary mb-8 italic border-l-4 border-accent-secondary pl-6 text-2xl font-display opacity-0">

@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import emailjs from '@emailjs/browser'
 import toast, { Toaster } from 'react-hot-toast'
+import { FiGithub, FiLinkedin, FiMail, FiMapPin } from 'react-icons/fi'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -35,25 +36,25 @@ function Contact() {
 
   const contactLinks = [
     {
-      icon: '✉️',
+      icon: FiMail,
       label: 'Email',
       value: import.meta.env.VITE_CONTACT_EMAIL,
       href: `mailto:${import.meta.env.VITE_CONTACT_EMAIL}`,
     },
     {
-      icon: '💼',
+      icon: FiLinkedin,
       label: 'LinkedIn',
       value: 'linkedin.com/in/jose-fernandez-7058b12a7',
       href: 'https://www.linkedin.com/in/jose-fernandez-7058b12a7',
     },
     {
-      icon: '🐙',
+      icon: FiGithub,
       label: 'GitHub',
       value: `@${import.meta.env.VITE_GITHUB_USERNAME}`,
       href: `https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`,
     },
     {
-      icon: '📍',
+      icon: FiMapPin,
       label: 'Location',
       value: 'Philippines',
       href: '#',
@@ -206,7 +207,7 @@ function Contact() {
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 className="contact-link-item glass-card p-4 flex items-center gap-4 group hover:border-accent-primary hover:translate-x-1 transition-all opacity-0"
               >
-                <span className="text-3xl">{link.icon}</span>
+                <link.icon className="h-5 w-5 shrink-0 text-accent-primary" aria-hidden="true" />
                 <div>
                   <p className="text-sm text-gray-400">{link.label}</p>
                   <p className="text-accent-primary font-semibold group-hover:text-accent-secondary transition-colors">
@@ -218,27 +219,27 @@ function Contact() {
 
             {/* Social links */}
             <div className="contact-social flex gap-4 mt-8 pt-8 border-t border-accent-primary/20 opacity-0">
-              <a
-                href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`}
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
+                <a
+                  href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME}`}
+                  className="contact-social-link w-12 h-12 glass-card flex items-center justify-center text-accent-primary hover:text-accent-secondary hover:scale-105 transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🐙
+                  <FiGithub className="h-5 w-5" aria-hidden="true" />
               </a>
-              <a
-                href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
+                <a
+                  href="https://www.linkedin.com/in/jose-fernandez-7058b12a7"
+                  className="contact-social-link w-12 h-12 glass-card flex items-center justify-center text-accent-primary hover:text-accent-secondary hover:scale-105 transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                💼
+                  <FiLinkedin className="h-5 w-5" aria-hidden="true" />
               </a>
-              <a
-                href="#"
-                className="w-12 h-12 glass-card flex items-center justify-center text-xl hover:text-accent-primary hover:scale-110 hover:rotate-[5deg] transition-all"
+                <a
+                  href="#"
+                  className="contact-social-link w-12 h-12 glass-card flex items-center justify-center text-accent-primary hover:text-accent-secondary hover:scale-105 transition-all"
               >
-                🐦
+                  <FiMail className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
           </div>
