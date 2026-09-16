@@ -3,12 +3,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const FRAMES = [
-  { src: '/scroll-craft/01.png', alt: 'Wide aerial view over Metro Manila and Antipolo' },
-  { src: '/scroll-craft/02.png', alt: 'Aerial descent toward Antipolo through clouds' },
-  { src: '/scroll-craft/03.png', alt: 'Closer aerial view of Antipolo terrain' },
-  { src: '/scroll-craft/04.png', alt: 'Detailed satellite view of Antipolo' },
-  { src: '/scroll-craft/05.png', alt: 'Angled aerial view of the Antipolo mountains' },
-  { src: '/scroll-craft/06.png', alt: 'Jose Bernard Fernandez in the Antipolo mountains at golden hour' },
+  { src: '/scroll-craft/01.jpg', alt: 'Wide aerial view over Metro Manila and Antipolo' },
+  { src: '/scroll-craft/02.jpg', alt: 'Aerial descent toward Antipolo through clouds' },
+  { src: '/scroll-craft/03.jpg', alt: 'Closer aerial view of Antipolo terrain' },
+  { src: '/scroll-craft/04.jpg', alt: 'Detailed satellite view of Antipolo' },
+  { src: '/scroll-craft/05.jpg', alt: 'Angled aerial view of the Antipolo mountains' },
+  { src: '/scroll-craft/06.jpg', alt: 'Jose Bernard Fernandez in the Antipolo mountains at golden hour' },
 ]
 
 function CinematicIntro() {
