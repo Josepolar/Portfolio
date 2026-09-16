@@ -19,6 +19,14 @@ function CinematicIntro() {
     if (!root) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+    const frameImages = Array.from(root.querySelectorAll('.antipolo-frame'))
+    const preloadFrames = frameImages.map((frame) => {
+      const image = new Image()
+      image.src = frame.currentSrc || frame.src
+      return image.decode?.().catch(() => undefined)
+    })
+
     const ctx = gsap.context(() => {
       gsap.registerPlugin(ScrollTrigger)
       const frames = gsap.utils.toArray('.antipolo-frame')
@@ -44,7 +52,7 @@ function CinematicIntro() {
           trigger: root,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 1.1,
+          scrub: isTouchDevice ? 0.55 : 0.8,
           onUpdate: (self) => root.style.setProperty('--sc-p', self.progress.toFixed(4)),
         },
       })
@@ -78,6 +86,7 @@ function CinematicIntro() {
     return () => {
       root.style.removeProperty('--sc-p')
       ctx.revert()
+      preloadFrames.forEach((frame) => frame?.catch?.(() => undefined))
     }
   }, [])
 
@@ -91,7 +100,8 @@ function CinematicIntro() {
               className={`antipolo-frame antipolo-frame--${index + 1}`}
               src={frame.src}
               alt={frame.alt}
-              loading={index < 2 ? 'eager' : 'lazy'}
+              loading="eager"
+              fetchPriority={index === 0 ? 'high' : 'auto'}
               decoding="async"
             />
           ))}

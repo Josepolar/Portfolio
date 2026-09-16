@@ -134,6 +134,7 @@ section > div {
   z-index: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  contain: paint;
 }
 
 .antipolo-frame {
@@ -143,6 +144,7 @@ section > div {
   transform-origin: center 52%;
   will-change: transform, opacity;
   backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .antipolo-frame--6 { object-position: 55% center; }
@@ -290,6 +292,8 @@ section > div {
   .antipolo-title { font-size: clamp(3rem, 14vw, 5rem); }
   .antipolo-title--final { font-size: clamp(2.1rem, 9vw, 3.5rem); }
   .antipolo-progress { right: 1.25rem; }
+  .antipolo-cloud { display: none; }
+  .antipolo-frame { transform-origin: center center; }
 }
 
 @media (min-width: 701px) and (max-width: 1023px) {
