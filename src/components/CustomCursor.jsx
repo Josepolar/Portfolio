@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
 export default function CustomCursor() {
   const cursorRef = useRef(null)
-  const [isHovering, setIsHovering] = useState(false)
+  const hoveringRef = useRef(false)
 
   useEffect(() => {
     // Only enable on non-touch devices
@@ -26,15 +26,20 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e) => {
       const target = e.target
-      if (
+      const isHovering = (
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button' ||
         target.closest('a') ||
         target.closest('button')
-      ) {
-        setIsHovering(true)
-      } else {
-        setIsHovering(false)
+      )
+      if (isHovering !== hoveringRef.current) {
+        hoveringRef.current = isHovering
+        gsap.to(cursor, {
+          scale: isHovering ? 3.5 : 1,
+          backgroundColor: isHovering ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.5)',
+          duration: 0.3,
+          ease: 'power3.out',
+        })
       }
     }
 
@@ -46,27 +51,6 @@ export default function CustomCursor() {
       window.removeEventListener('mouseover', handleMouseOver)
     }
   }, [])
-
-  useEffect(() => {
-    const cursor = cursorRef.current
-    if (!cursor) return
-
-    if (isHovering) {
-      gsap.to(cursor, {
-        scale: 3.5,
-        backgroundColor: 'rgba(255,255,255,1)',
-        duration: 0.3,
-        ease: 'power3.out'
-      })
-    } else {
-      gsap.to(cursor, {
-        scale: 1,
-        backgroundColor: 'rgba(255,255,255,0.5)',
-        duration: 0.3,
-        ease: 'power3.out'
-      })
-    }
-  }, [isHovering])
 
   return (
     <div

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMoon, FiSun, FiMenu, FiX } from 'react-icons/fi'
 
+const MotionDiv = motion.div
+const MotionLink = motion.a
+
 function Navbar({ theme = 'dark', onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -14,11 +17,19 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
   ]
 
   useEffect(() => {
+    let frame = 0
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50)
+        frame = 0
+      })
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
   }, [])
 
   useEffect(() => {
@@ -86,7 +97,7 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
       {/* Mobile Fullscreen Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: '-100%' }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '-100%' }}
@@ -103,7 +114,7 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
             <ul className="flex flex-col gap-8 text-center">
               {navItems.map((item) => (
                 <li key={item.label} className="overflow-hidden">
-                  <motion.a
+                  <MotionLink
                     initial={{ y: 50 }}
                     animate={{ y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
@@ -112,11 +123,11 @@ function Navbar({ theme = 'dark', onToggleTheme }) {
                     className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-widest text-porcelain hover:text-accent-primary transition-colors block"
                   >
                     {item.label}
-                  </motion.a>
+                  </MotionLink>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </>

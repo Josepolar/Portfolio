@@ -21,7 +21,15 @@ function CinematicIntro() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
     const frameImages = Array.from(root.querySelectorAll('.antipolo-frame'))
-    const preloadFrames = frameImages.map((frame) => {
+    if (isTouchDevice) {
+      gsap.set(frameImages, { opacity: 0 })
+      gsap.set(frameImages[5], { opacity: 1 })
+      gsap.set(root.querySelector('.antipolo-opening-copy'), { opacity: 0 })
+      gsap.set(root.querySelector('.antipolo-final-copy'), { opacity: 1, y: 0 })
+      return undefined
+    }
+
+    const preloadFrames = frameImages.slice(0, 2).map((frame) => {
       const image = new Image()
       image.src = frame.currentSrc || frame.src
       return image.decode?.().catch(() => undefined)
@@ -100,7 +108,7 @@ function CinematicIntro() {
               className={`antipolo-frame antipolo-frame--${index + 1}`}
               src={frame.src}
               alt={frame.alt}
-              loading="eager"
+              loading={index === 0 || index === 5 ? 'eager' : 'lazy'}
               fetchPriority={index === 0 ? 'high' : 'auto'}
               decoding="async"
             />
