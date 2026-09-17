@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import TechStackIcons from './TechStackIcons'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -58,15 +59,20 @@ function SkillsMatrix() {
 
   return (
     <section id="skills" className="py-20 px-4 bg-dark-secondary/30" ref={sectionRef}>
-      <div className="max-w-6xl mx-auto">
-        <div className="skills-header text-center mb-16 opacity-0">
+      <div className="max-w-6xl mx-auto relative">
+        <div className="skills-floating-stack" aria-label="Interactive technology stack">
+          <div className="skills-floating-stack__hint">Drag the stack</div>
+          <TechStackIcons floating />
+        </div>
+
+        <div className="skills-header relative z-10 text-center mb-16 opacity-0">
           <p className="section-eyebrow justify-center">What I work with</p>
           <h2 className="text-4xl md:text-5xl font-bold font-display">
             <span className="text-accent-primary">Skills</span> &amp; Expertise
           </h2>
         </div>
 
-        <div className="skills-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="skills-grid relative z-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillGroups.map((group, groupIndex) => (
             <div
               key={groupIndex}
@@ -91,7 +97,7 @@ function SkillsMatrix() {
         </div>
 
         {/* Tech Stack Overview */}
-        <div className="skills-overview mt-16 glass-card p-8 text-center opacity-0">
+        <div className="skills-overview relative z-10 mt-16 glass-card p-8 text-center opacity-0">
           <h3 className="text-2xl font-bold text-accent-primary mb-4">Current Tech Stack</h3>
           <p className="text-gray-300 mb-6">
             Building production-ready products with Next.js, React, TypeScript, Node.js, and PostgreSQL

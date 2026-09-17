@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Hero from './components/Hero'
 import About from './components/About'
 import SkillsMatrix from './components/SkillsMatrix'
@@ -11,6 +11,7 @@ import Contact from './components/Contact'
 import Navbar from './components/Navbar'
 import ReactLenis from 'lenis/react'
 import CustomCursor from './components/CustomCursor'
+import PortfolioChat from './components/PortfolioChat'
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -35,6 +36,7 @@ function App() {
       <CustomCursor />
       <div className={rootClassName}>
         <Navbar theme={theme} onToggleTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} />
+        <PortfolioChat />
         <main>
           <Hero />
           <About />
