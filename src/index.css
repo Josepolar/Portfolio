@@ -720,7 +720,7 @@ html[data-theme='light'] .timeline-card-surface {
   gap: clamp(1.5rem, 3vw, 3.5rem) clamp(1rem, 2vw, 2rem);
 }
 
-.project-gallery-item { opacity: 0; }
+.project-gallery-item { display: flex; flex-direction: column; min-width: 0; opacity: 0; }
 
 .project-gallery-link { display: block; width: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; text-decoration: none; }
 .project-gallery-visual { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--nature-elevated); }
@@ -747,11 +747,11 @@ html[data-theme='light'] .timeline-card-surface {
 .project-lightbox-close:hover { background: #f4f2ea; color: #1c211e; }
 .project-lightbox-close svg { width: 1.2rem; height: 1.2rem; }
 
-.project-gallery-meta { padding: 1.25rem 0 0; border-bottom: 1px solid var(--nature-border); }
+.project-gallery-meta { display: flex; flex: 1; flex-direction: column; padding: 1.25rem 0 0; border-bottom: 1px solid var(--nature-border); }
 .project-gallery-type { margin: 0 0 0.4rem; color: rgb(var(--accent-secondary)); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
 .project-gallery-meta h3 { margin: 0; color: var(--nature-ink); font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 400; line-height: 1; }
 .project-gallery-description { max-width: 48ch; margin: 1rem 0 1.4rem; color: var(--nature-muted); font-size: 0.95rem; line-height: 1.55; }
-.project-gallery-footer { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; color: var(--nature-muted); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.project-gallery-footer { display: flex; margin-top: auto; align-items: flex-end; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; color: var(--nature-muted); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .project-gallery-actions { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.85rem; }
 .project-gallery-actions a { display: inline-flex; align-items: center; gap: 0.35rem; color: rgb(var(--accent-primary)); text-decoration: none; }
 .project-gallery-actions a:hover { color: rgb(var(--accent-secondary)); }
