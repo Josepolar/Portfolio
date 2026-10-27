@@ -4,7 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import axios from 'axios'
 import { FiArrowUpRight, FiGithub, FiImage, FiMonitor, FiX } from 'react-icons/fi'
 
+const STUDYSCAN_PROJECT = { id: 'studyscan', name: 'StudyScan', full_name: 'Josepolar/StudyScan', html_url: 'https://github.com/Josepolar/StudyScan', homepage: 'https://studyscan-green.vercel.app/', language: 'TypeScript' }
+
 const FEATURED_NAMES = [
+  'StudyScan',
   'lars-web',
   'Portfolio',
   'profile-app',
@@ -16,6 +19,7 @@ const FEATURED_NAMES = [
 ]
 
 const PROJECT_COPY = {
+  StudyScan: { title: 'StudyScan', type: 'School learning platform', stack: 'React · TypeScript · Supabase · PostgreSQL', description: 'A commissioned school platform connecting lessons, activities, and teacher-guided study assistance. Includes Google sign-in, separate student, teacher, and administrator workspaces, written and file submissions, grading, feedback, and a guided student tour.' },
   'lars-web': { title: 'LARS', type: 'Gamified learning platform', description: 'A pixel-art learning platform for Filipino 7 students, bringing quizzes, activities, achievements, typing games, matching games, and score tracking into one playful system.' },
   Portfolio: { title: 'Jose.dev', type: 'Personal portfolio', description: 'A cinematic developer portfolio rooted in Antipolo, thoughtful interfaces, and useful systems.' },
   'profile-app': { title: 'Profile App', type: 'Mobile experience', description: 'A Flutter profile experience exploring calm information design and focused interaction.' },
@@ -27,6 +31,7 @@ const PROJECT_COPY = {
 }
 
 function getProjectImage(repo) {
+  if (repo.name === 'StudyScan') return '/projects/StudyScan.png'
   if (repo.name === 'lars-web') return '/projects/lars-web.png'
   if (repo.name === 'snapframe-style-booth') return '/projects/SnapFrame.webp'
   if (repo.name === 'ADR-Autoparts-PB') return '/projects/ADR-Autoparts-PB.webp'
@@ -38,6 +43,7 @@ function getScreenshotPath(repo) {
 }
 
 function getProjectLink(repo) {
+  if (repo.name === 'StudyScan') return STUDYSCAN_PROJECT.homepage
   if (repo.name === 'snapframe-style-booth') return 'https://snapframe-style-booth.vercel.app/'
   return repo.homepage || repo.html_url
 }
@@ -91,7 +97,7 @@ function GitHubRepos() {
   }, [])
 
   const projects = useMemo(() => {
-    const byName = new Map(repos.map((repo) => [repo.name, repo]))
+    const byName = new Map([STUDYSCAN_PROJECT, ...repos].map((repo) => [repo.name, repo]))
     return FEATURED_NAMES.map((name) => byName.get(name)).filter(Boolean)
   }, [repos])
 
@@ -138,7 +144,7 @@ function GitHubRepos() {
         {loading && <p className="project-gallery-status">Loading projects...</p>}
         {error && <p className="project-gallery-status">{error}</p>}
 
-        {!loading && !error && (
+        {!loading && (
           <>
           <div className="project-gallery" aria-label="Selected projects">
             {projects.map((repo, index) => {
@@ -155,7 +161,7 @@ function GitHubRepos() {
                     </div>
                     <p className="project-gallery-description">{copy.description}</p>
                     <div className="project-gallery-footer">
-                      <span>{repo.language || 'Web'}</span>
+                      <span>{copy.stack || repo.language || 'Web'}</span>
                       <span className="project-gallery-actions">
                         <a href={getScreenshotPath(repo)} target="_blank" rel="noopener noreferrer"><FiImage /> Screenshot</a>
                         <a href={getProjectLink(repo)} target="_blank" rel="noopener noreferrer">{getProjectLink(repo) !== repo.html_url ? <><FiMonitor /> Live site</> : <><FiGithub /> Repository</>}</a>
